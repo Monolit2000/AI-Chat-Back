@@ -1,0 +1,57 @@
+services:
+  audioprocessing.api:
+    image: ${DOCKER_REGISTRY-}audioprocessingapi
+    container_name: audioprocessing-api
+    build:
+      context: .
+      dockerfile: AudioProcessing.API/Dockerfile
+    environment:
+       ConnectionStrings__Database: Host=postgresddb;Port=5432;Database=audioDataBase;Username=postgres;Password=postgres
+    ports:
+      - 5000:5000
+    depends_on:
+      - postgresddb
+    networks:
+      - default
+
+
+  postgresddb:
+    image: postgres:latest
+    container_name: postgres.db
+    environment:
+      POSTGRES_DB: audioDataBase
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - default
+    restart: always
+
+    
+  i3lab-dashboard:
+    image: mcr.microsoft.com/dotnet/nightly/aspire-dashboard:latest
+    container_name: i3lab.dashboard
+    ports:
+      - 18888:18888
+    networks:
+      - default  
+
+  i3lab-jaeger:
+     image: jaegertracing/all-in-one:latest
+     container_name: i3lab.Jaeger
+     ports:
+       - 4317:4317
+       - 4318:4318
+       - 16686:16686
+
+volumes:
+  postgres_data:
+
+
+networks:
+  default:
+    name: i3lab-network
+  otel:

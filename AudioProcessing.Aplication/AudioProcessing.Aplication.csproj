@@ -1,0 +1,79 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentResults" Version="3.16.0" />
+    <PackageReference Include="Google.Apis.Drive.v3" Version="1.68.0.3568" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="Microsoft.OpenApi" Version="1.6.22" />
+    <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="NAudio.Lame" Version="2.1.0" />
+    <PackageReference Include="OpenAI" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AudioProcessing.Domain\AudioProcessing.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\Andr\.nuget\packages\naudio.lame\2.1.0\build\libmp3lame.32.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\Andr\.nuget\packages\naudio.lame\2.1.0\build\libmp3lame.32.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\Andr\.nuget\packages\naudio.lame\2.1.0\build\libmp3lame.64.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\Andr\.nuget\packages\naudio.lame\2.1.0\build\libmp3lame.32.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\Andr\.nuget\packages\naudio.lame\2.1.0\build\libmp3lame.32.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\Andr\.nuget\packages\naudio.lame\2.1.0\build\libmp3lame.32.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\Andr\.nuget\packages\naudio.lame\2.1.0\build\libmp3lame.32.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\Andr\.nuget\packages\naudio.lame\2.1.0\build\libmp3lame.32.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\Andr\.nuget\packages\naudio.lame\2.1.0\build\libmp3lame.32.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\Andr\.nuget\packages\naudio.lame\2.1.0\build\libmp3lame.32.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\Andr\.nuget\packages\naudio.lame\2.1.0\build\libmp3lame.32.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\Andr\.nuget\packages\naudio.lame\2.1.0\build\libmp3lame.32.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\Andr\.nuget\packages\naudio.lame\2.1.0\build\libmp3lame.32.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\Andr\.nuget\packages\naudio.lame\2.1.0\build\libmp3lame.32.dll" />
+  </ItemGroup>
+
+</Project>
