@@ -1,4 +1,5 @@
 ﻿using AudioProcessing.Domain.Chats;
+using AudioProcessing.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -34,8 +35,23 @@ namespace AudioProcessing.Infrastructure.Domain.Chats
                 {
                     b.Property(c => c.Value).HasColumnName("PromtType");
                 });
+
+
+                //b.ComplexProperty(o => o.PromtType, b =>
+                //{
+                //    b.IsRequired();
+                //    b.Property(a => a.Value).HasColumnName("TreatmentStageStatus");
+                //});
+
+                // b.Property(e => e.PromtType)
+                //.HasConversion(
+                //    v => v.Value,
+                //    v => new PromtType(v)
+                //)
+                //.IsRequired();
             });
 
+          
         }
     }
 }

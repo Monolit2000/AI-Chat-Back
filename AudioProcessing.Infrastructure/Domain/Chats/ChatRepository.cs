@@ -26,7 +26,9 @@ namespace AudioProcessing.Infrastructure.Domain.Chats
 
         public async Task<List<Chat>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await dbContext.Chats.ToListAsync(cancellationToken);
+            return await dbContext.Chats
+                .Include(chat => chat.ChatResponces)
+                .ToListAsync(cancellationToken);
         }
 
         public async Task AddAsync(Chat chat, CancellationToken cancellationToken = default)

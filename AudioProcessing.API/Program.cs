@@ -66,8 +66,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 
-    app.ClearDbContextMigrations();
+    //app.ClearDbContextMigrations();
     app.ApplyWorkContextMigrations();
+
+
+
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        var context = services.GetRequiredService<ApplicationDbContext>();
+
+        await DataSeeder.SeedAsync(context);
+    }
 }
 
 app.UseCors("AllowSpecificOrigin");

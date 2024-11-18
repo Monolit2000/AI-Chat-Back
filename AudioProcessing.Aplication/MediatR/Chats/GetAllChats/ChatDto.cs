@@ -23,3 +23,4 @@ namespace AudioProcessing.Aplication.MediatR.Chats.GetAllChats
         }
     }
 }
+//(click) = "handleChatClick(chat)"
