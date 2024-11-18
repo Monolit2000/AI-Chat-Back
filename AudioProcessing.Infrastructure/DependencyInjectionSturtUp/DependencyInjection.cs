@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using AudioProcessing.Infrastructure.Services;
 using AudioProcessing.Domain.Chats;
 using AudioProcessing.Infrastructure.Domain.Chats;
+using AudioProcessing.Aplication.Services;
 namespace AudioProcessing.Aplication
 {
     public static class DependencyInjection
@@ -18,6 +19,7 @@ namespace AudioProcessing.Aplication
             services.AddScoped<IAudioTranscriptionService, TranscriptionService>();
 
             services.AddScoped<ISplitAudioService, SplitAudioService>();
+            services.AddScoped<IAudioProcessingService, AudioProcessingService>();
            
 
             return services;

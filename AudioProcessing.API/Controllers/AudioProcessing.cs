@@ -4,6 +4,8 @@ using AudioProcessing.Aplication.MediatR.Chats.GetAllChats;
 using AudioProcessing.Aplication.MediatR.Chats.CreateTrancription;
 using AudioProcessing.Aplication.MediatR.Chats.GetAllChatsByUserId;
 using AudioProcessing.Aplication.MediatR.Chats.CreateChatWithTranscription;
+using AudioProcessing.Aplication.MediatR.Chats.CreateChat;
+using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponsesByChatId;
 
 namespace AudioProcessing.API.Controllers
 {
@@ -53,6 +55,19 @@ namespace AudioProcessing.API.Controllers
         }
 
 
+        [HttpPost("CreateChat")]
+        public async Task<IActionResult> CreateChat()
+        {
+
+            var result = await _mediator.Send(new CreateChatCommand());
+
+            if (result.IsFailed)
+                return BadRequest();
+
+            return Ok();
+        }
+
+
         [HttpGet("GetAllChatsByUserId")]
         public async Task<IActionResult> GetAllChatsByUserId([FromQuery] GetAllChatsByUserIdQuery getAllChatsByUserIdQuery)
         {
@@ -60,6 +75,20 @@ namespace AudioProcessing.API.Controllers
 
             return Ok(rsult);   
         }
+
+
+        [HttpGet("getAllChatResponsesByChatId")]
+        public async Task<IActionResult> GetAllChatsByUserId([FromQuery] GetAllChatResponsesByChatIdQuery getAllChatResponsesByChatIdQuery)
+        {
+            var result = await _mediator.Send(getAllChatResponsesByChatIdQuery);
+
+            if (result.IsFailed)
+                return BadRequest();
+
+            return Ok(result);   
+        }
+
+
 
         [HttpGet("GetAllChats")]
         public async Task<IActionResult> GetAllChats()

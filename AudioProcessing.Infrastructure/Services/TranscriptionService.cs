@@ -52,14 +52,14 @@ namespace AudioProcessing.Infrastructure.Services
 
 //namespace AudioProcessing.Infrastructure.Services
 //{
-//    public class TranscriptionService : IAudioTranscriptionService
+//    public class AudioProcessingService : IAudioTranscriptionService
 //    {
 //        private readonly int _retryCount = 10;
 //        private readonly TimeSpan _delay = TimeSpan.FromSeconds(5);
 //        private readonly AsyncRetryPolicy _retryPolicy;
 //        private readonly IOpenAIService _openAIService;
 
-//        public TranscriptionService()
+//        public AudioProcessingService()
 //        {
 //            // Создаем экземпляр OpenAIService
 //            _openAIService = new OpenAIService(new OpenAI.OpenAiOptions

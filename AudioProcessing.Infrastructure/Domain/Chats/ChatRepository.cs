@@ -13,6 +13,7 @@ namespace AudioProcessing.Infrastructure.Domain.Chats
         public async Task<Chat> GetByIdAsync(ChatId chatId, CancellationToken cancellationToken = default)
         {
             return await dbContext.Chats
+                .Include (chat => chat.ChatResponces)  
                 .FirstOrDefaultAsync(chat => chat.Id == chatId, cancellationToken);
         }
 
