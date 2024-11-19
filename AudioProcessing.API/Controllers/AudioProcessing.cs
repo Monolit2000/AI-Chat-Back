@@ -25,13 +25,13 @@ namespace AudioProcessing.API.Controllers
         [HttpPost("createTrancription")]
         [RequestSizeLimit(100000000)]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> CreateTrancription(IFormFile audioFile, string chatId/*, Guid userId*/)
+        public async Task<IActionResult> CreateTrancription([FromForm] ChatRequest chatRequest/*, Guid userId*/)
         {
 
             var command = new CreateTrancriptionCommmand
             {
-                ChatId =  Guid.Parse(chatId),
-                AudioStream = audioFile.OpenReadStream()
+                ChatId =  Guid.Parse(chatRequest.ChatId),
+                AudioStream = chatRequest.AudioFile.OpenReadStream()
             };
 
             var result = await _mediator.Send(command);

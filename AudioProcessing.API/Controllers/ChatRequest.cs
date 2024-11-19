@@ -1,8 +1,8 @@
 ﻿namespace AudioProcessing.API.Controllers
 {
-    public class ChatResponse
+    public class ChatRequest
     {
         public string ChatId { get; set; }
-        public IFormFile audioFile { get; set; }
+        public IFormFile AudioFile { get; set; }
     }
 }
