@@ -1,4 +1,5 @@
 ﻿using AudioProcessing.Aplication.DTOs;
+using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponsesByChatId;
 using FluentResults;
 using MediatR;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AudioProcessing.Aplication.MediatR.Chats.CreateTrancription
 {
-    public class CreateTrancriptionCommmand : IRequest<Result<AudioTranscriptionDTO>>
+    public class CreateTrancriptionCommmand : IRequest<Result<ChatResponseDto>>
     {
         public Guid UserId { get; set; }
         public Guid ChatId { get; set; }

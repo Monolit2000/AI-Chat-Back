@@ -36,7 +36,7 @@ namespace AudioProcessing.Domain.Chats
         }
 
         public static ChatResponce CreateResponceOnText(ChatId chatId, string promt, string content) 
-            => new ChatResponce(chatId, /*PromtType.Text*/ PromtType.Audio, promt, content);
+            => new ChatResponce(chatId, PromtType.Text, promt, content);
 
         public static ChatResponce CreateResponceOnAudio(ChatId chatId, AudioId audioId, string promt, string content) 
             => new ChatResponce(chatId, PromtType.Audio, promt, content, audioId);

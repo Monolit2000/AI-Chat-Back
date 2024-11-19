@@ -7,6 +7,7 @@ using AudioProcessing.Aplication.MediatR.Chats.CreateChatWithTranscription;
 using AudioProcessing.Aplication.MediatR.Chats.CreateChat;
 using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponsesByChatId;
 using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponses;
+using AudioProcessing.Domain.Chats;
 
 namespace AudioProcessing.API.Controllers
 {
@@ -21,17 +22,27 @@ namespace AudioProcessing.API.Controllers
             _mediator = mediator;   
         }
 
-        [HttpPost("CreateTrancription")]
+        [HttpPost("createTrancription")]
         [RequestSizeLimit(100000000)]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> CreateTrancription(IFormFile audioFile, Guid ChatId, Guid UserId)
+        public async Task<IActionResult> CreateTrancription(IFormFile audioFile, string chatId/*, Guid userId*/)
         {
-            var rsult = await _mediator.Send(new CreateTrancriptionCommmand { AudioStream = audioFile.OpenReadStream()});
 
-            return Ok(rsult);   
+            var command = new CreateTrancriptionCommmand
+            {
+                ChatId =  Guid.Parse(chatId),
+                AudioStream = audioFile.OpenReadStream()
+            };
+
+            var result = await _mediator.Send(command);
+
+            if (result.IsFailed)
+                return BadRequest();
+
+            return Ok(result.Value);   
         } 
         
-        [HttpPost("CreateChatWithTranscription")]
+        [HttpPost("createChatWithTranscription")]
         [RequestSizeLimit(100000000)]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> CreateChatWithTranscription(IFormFile audioFile)
@@ -78,7 +89,7 @@ namespace AudioProcessing.API.Controllers
         }
 
 
-        [HttpGet("getAllChatResponsesByChatId")]
+        [HttpGet("getAllChatResponsesByChatId/{chatId}")]
         public async Task<IActionResult> GetAllChatsByUserId(string chatId)
         {
             var result = await _mediator.Send(new GetAllChatResponsesByChatIdQuery() { ChatId = Guid.Parse(chatId)});
@@ -86,10 +97,10 @@ namespace AudioProcessing.API.Controllers
             if (result.IsFailed)
                 return BadRequest();
 
-            return Ok(result);   
+            return Ok(result.Value);   
         }
 
-        [HttpGet("getAllChatResponsesQuery")]
+        [HttpGet("getAllChatResponses")]
         public async Task<IActionResult> GetAllChatsByUserId()
         {
             var result = await _mediator.Send(new GetAllChatResponsesQuery());

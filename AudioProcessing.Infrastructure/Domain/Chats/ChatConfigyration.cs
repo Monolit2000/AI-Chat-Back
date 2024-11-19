@@ -31,10 +31,10 @@ namespace AudioProcessing.Infrastructure.Domain.Chats
                 b.Property(x => x.Content);
                 b.Property(x => x.CreatedAt).IsRequired();
 
-                b.OwnsOne(x => x.PromtType, b =>
-                {
-                    b.Property(c => c.Value).HasColumnName("PromtType");
-                });
+                //b.OwnsOne(x => x.PromtType, b =>
+                //{
+                //    b.Property(c => c.Value).HasColumnName("PromtType");
+                //});
 
 
                 //b.ComplexProperty(o => o.PromtType, b =>
@@ -43,12 +43,12 @@ namespace AudioProcessing.Infrastructure.Domain.Chats
                 //    b.Property(a => a.Value).HasColumnName("TreatmentStageStatus");
                 //});
 
-                // b.Property(e => e.PromtType)
-                //.HasConversion(
-                //    v => v.Value,
-                //    v => new PromtType(v)
-                //)
-                //.IsRequired();
+                b.Property(e => e.PromtType)
+               .HasConversion(
+                   v => v.Value,
+                   v => new PromtType(v)
+               )
+               .IsRequired();
             });
 
           

@@ -1,11 +1,12 @@
 ﻿using AudioProcessing.Aplication.DTOs;
+using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponsesByChatId;
 using FluentResults;
 using MediatR;
 using NAudio.Wave;
 
 namespace AudioProcessing.Aplication.MediatR.Chats.CreateChatWithTranscription
 {
-    public class CreateChatWithTranscriptionCommand : IRequest<Result<AudioTranscriptionDTO>>
+    public class CreateChatWithTranscriptionCommand : IRequest<Result<ChatResponseDto>>
     {
         public Guid UserId { get; set; }
 

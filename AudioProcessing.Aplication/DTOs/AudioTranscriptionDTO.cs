@@ -8,11 +8,13 @@ namespace AudioProcessing.Aplication.DTOs
 {
     public class AudioTranscriptionDTO
     {
-        public string Transcription { get; set; }
+        public Guid ChatId { get; set; }
+        public string conetent { get; set; }
 
-        public AudioTranscriptionDTO(string transcription)
+        public AudioTranscriptionDTO(Guid chatId ,string transcription)
         {
-            Transcription = transcription;
+            ChatId = chatId;
+            conetent = transcription;
         }
     }
 }

@@ -41,7 +41,7 @@ namespace AudioProcessing.Infrastructure.Persistence
 
                     for (int j = 0; j <= 10; j++)
                     {
-                        chat.AddChatResponceOnText($"Promt {Guid.NewGuid()}");
+                        chat.AddChatResponceOnText($" Response from chatId: {chat.Id.Value}, with value: content {Guid.NewGuid()}");
                     }
 
                     chats.Add(chat);

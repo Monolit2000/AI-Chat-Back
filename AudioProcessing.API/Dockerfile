@@ -5,7 +5,6 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
 EXPOSE 8080
-#EXPOSE 8081
 
 
 # Этот этап используется для сборки проекта службы
@@ -14,9 +13,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["AudioProcessing.API/AudioProcessing.API.csproj", "AudioProcessing.API/"]
 COPY ["AudioProcessing.Aplication/AudioProcessing.Aplication.csproj", "AudioProcessing.Aplication/"]
-COPY ["ChatGPT_APP.Infrastructure/ChatGPT_APP.Infrastructure.csproj", "ChatGPT_APP.Infrastructure/"]
-COPY ["ChatGPT_APP.Services/ChatGPT_APP.Aplication.csproj", "ChatGPT_APP.Services/"]
-COPY ["ChatGPT_APP.Models/ChatGPT_APP.Domain.csproj", "ChatGPT_APP.Models/"]
+COPY ["AudioProcessing.Domain/AudioProcessing.Domain.csproj", "AudioProcessing.Domain/"]
 COPY ["AudioProcessing.Infrastructure/AudioProcessing.Infrastructure.csproj", "AudioProcessing.Infrastructure/"]
 RUN dotnet restore "./AudioProcessing.API/AudioProcessing.API.csproj"
 COPY . .
