@@ -4,5 +4,7 @@
     {
         public string ChatId { get; set; }
         public IFormFile AudioFile { get; set; }
+
+        public string? Promt { get; set; }
     }
 }

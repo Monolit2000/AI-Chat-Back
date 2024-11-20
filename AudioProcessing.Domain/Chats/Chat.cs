@@ -35,7 +35,7 @@ namespace AudioProcessing.Domain.Chats
 
         public Result AddChatResponceOnText(string content, string promt = default)
         {
-            var chatResponse = ChatResponce.CreateResponceOnText(this.Id, promt ?? "Promt", content);
+            var chatResponse = ChatResponce.CreateResponceOnText(this.Id, promt ?? "None", content);
             ChatResponces.Add(chatResponse);    
 
             return Result.Ok();

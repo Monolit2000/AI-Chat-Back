@@ -17,6 +17,8 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateTrancription
         public Guid ChatId { get; set; }
         public Stream AudioStream { get; set; }
 
+        public string Promt { get; set; }
+
     }
 
     //public class TranscriptionSetting

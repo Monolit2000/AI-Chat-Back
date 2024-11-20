@@ -31,7 +31,8 @@ namespace AudioProcessing.API.Controllers
             var command = new CreateTrancriptionCommmand
             {
                 ChatId =  Guid.Parse(chatRequest.ChatId),
-                AudioStream = chatRequest.AudioFile.OpenReadStream()
+                AudioStream = chatRequest.AudioFile.OpenReadStream(),
+                Promt = chatRequest.Promt
             };
 
             var result = await _mediator.Send(command);
