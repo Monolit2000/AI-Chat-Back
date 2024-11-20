@@ -2,7 +2,6 @@
 using FluentResults;
 using AudioProcessing.Domain.Chats;
 using AudioProcessing.Domain.Users;
-using AudioProcessing.Aplication.DTOs;
 using AudioProcessing.Aplication.Common.Contract;
 using AudioProcessing.Aplication.Common.Models;
 using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponsesByChatId;

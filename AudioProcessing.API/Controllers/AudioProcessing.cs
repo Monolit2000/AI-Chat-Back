@@ -68,16 +68,15 @@ namespace AudioProcessing.API.Controllers
         }
 
 
-        [HttpPost("CreateChat")]
+        [HttpPost("createNewChat")]
         public async Task<IActionResult> CreateChat()
         {
-
             var result = await _mediator.Send(new CreateChatCommand());
 
             if (result.IsFailed)
                 return BadRequest();
 
-            return Ok();
+            return Ok(result.Value);
         }
 
 

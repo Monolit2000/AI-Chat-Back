@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AudioProcessing.Aplication.MediatR.Chats.CreateChat
 {
-    public class CreateChatCommand : IRequest<Result>
+    public class CreateChatCommand : IRequest<Result<ChatDto>>
     {
     }
 }

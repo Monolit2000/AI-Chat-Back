@@ -7,9 +7,9 @@ using AudioProcessing.Aplication.Common.Models;
 namespace AudioProcessing.Aplication.MediatR.Chats.CreateChat
 {
     public class CreateChatCommandHandler(
-        IChatRepository chatRepository) : IRequestHandler<CreateChatCommand, Result>
+        IChatRepository chatRepository) : IRequestHandler<CreateChatCommand, Result<ChatDto>>
     {
-        public async Task<Result> Handle(CreateChatCommand request, CancellationToken cancellationToken)
+        public async Task<Result<ChatDto>> Handle(CreateChatCommand request, CancellationToken cancellationToken)
         {
             //var transcriptionResult = await audioProcessingService.CreateTranscription(request.AudioStream);
 
@@ -18,7 +18,12 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateChat
             await chatRepository.AddAsync(chat, cancellationToken);
             await chatRepository.SaveChangesAsync(cancellationToken);
 
-            return Result.Ok();
+            var chatDto = new ChatDto(
+                chat.Id.Value, 
+                chat.ChatTitel, 
+                chat.CreatedDate);
+
+            return chatDto;
         }
     }
 }

@@ -16,8 +16,10 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateTrancription
         {
             //var transcriptionResult = await transcriptionService.CreateTranscription(request.AudioStream);
 
-            var transcriptionResult = new AudioTranscriptionResponce(
-                $"CreateTrancriptionCommmand {Guid.NewGuid().ToString()} + Promt: {(string.IsNullOrWhiteSpace(request.Promt) ? "None" : request.Promt)}");
+            var defaultContent = $"CreateTrancriptionCommmand {Guid.NewGuid().ToString()} +" +
+                $" Promt: {(string.IsNullOrWhiteSpace(request.Promt) ? "None" : request.Promt)}";
+
+            var transcriptionResult = new AudioTranscriptionResponce(defaultContent);
 
             var chat = await chatRepository.GetByIdAsync(new ChatId(request.ChatId));
 

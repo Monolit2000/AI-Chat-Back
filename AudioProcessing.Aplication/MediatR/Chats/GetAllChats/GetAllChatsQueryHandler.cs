@@ -13,7 +13,10 @@ namespace AudioProcessing.Aplication.MediatR.Chats.GetAllChats
             if (!chats.Any())
                 return new List<ChatDto>();
 
-            var chatsDtos = chats.Select(x => new ChatDto(x.Id.Value ,x.ChatTitel, x.CreatedDate)).ToList();
+            var chatsDtos = chats
+                .OrderByDescending(x => x.CreatedDate) 
+                .Select(x => new ChatDto(x.Id.Value, x.ChatTitel, x.CreatedDate))
+                .ToList();
 
             return chatsDtos;
         }
