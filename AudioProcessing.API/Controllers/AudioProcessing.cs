@@ -8,6 +8,7 @@ using AudioProcessing.Aplication.MediatR.Chats.CreateChat;
 using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponsesByChatId;
 using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponses;
 using AudioProcessing.Domain.Chats;
+using AudioProcessing.Aplication.MediatR.Chats.DeleteChat;
 
 namespace AudioProcessing.API.Controllers
 {
@@ -78,6 +79,18 @@ namespace AudioProcessing.API.Controllers
 
             return Ok(result.Value);
         }
+
+        [HttpPost("deleteChat")]
+        public async Task<IActionResult> DeleteChat([FromBody] DeleteChatRequest deleteChatRequest)
+        {
+            var result = await _mediator.Send(new DeleteChatCommand { ChatId = deleteChatRequest.ChatId/*Guid.Parse(chatId)*/ });
+
+            if (result.IsFailed)
+                return BadRequest();
+
+            return Ok(result);
+        }
+
 
 
         [HttpGet("GetAllChatsByUserId")]

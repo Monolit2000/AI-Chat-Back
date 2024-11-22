@@ -1,10 +1,9 @@
 ﻿using MediatR;
 using FluentResults;
 using AudioProcessing.Domain.Chats;
-using AudioProcessing.Aplication.DTOs;
+using AudioProcessing.Aplication.Common.Models;
 using AudioProcessing.Aplication.Common.Contract;
 using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponsesByChatId;
-using AudioProcessing.Aplication.Common.Models;
 
 namespace AudioProcessing.Aplication.MediatR.Chats.CreateTrancription
 {

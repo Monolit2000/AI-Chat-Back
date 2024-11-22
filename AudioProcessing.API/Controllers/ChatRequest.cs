@@ -7,4 +7,12 @@
 
         public string? Promt { get; set; }
     }
+
+    public class DeleteChatRequest
+    {
+        public Guid ChatId { get; set; }
+    }
+
+
+
 }
