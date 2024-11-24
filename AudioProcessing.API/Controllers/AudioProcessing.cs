@@ -1,14 +1,13 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using AudioProcessing.Aplication.MediatR.Chats.CreateChat;
+using AudioProcessing.Aplication.MediatR.Chats.DeleteChat;
 using AudioProcessing.Aplication.MediatR.Chats.GetAllChats;
 using AudioProcessing.Aplication.MediatR.Chats.CreateTrancription;
 using AudioProcessing.Aplication.MediatR.Chats.GetAllChatsByUserId;
-using AudioProcessing.Aplication.MediatR.Chats.CreateChatWithTranscription;
-using AudioProcessing.Aplication.MediatR.Chats.CreateChat;
-using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponsesByChatId;
 using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponses;
-using AudioProcessing.Domain.Chats;
-using AudioProcessing.Aplication.MediatR.Chats.DeleteChat;
+using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponsesByChatId;
+using AudioProcessing.Aplication.MediatR.Chats.CreateChatWithTranscription;
 
 namespace AudioProcessing.API.Controllers
 {

@@ -49,6 +49,12 @@ namespace AudioProcessing.Domain.Chats
             return Result.Ok();
         }
 
+        public Result ChengeChatTitel(string titel)
+        {
+            ChatTitel = titel;
+            return Result.Ok();
+        }
+
         public void SetChatTitel(string chatTitel)
         {
             ChatTitel = chatTitel;

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AudioProcessing.Domain.Chats;
+﻿using AudioProcessing.Domain.Chats;
 using AudioProcessing.Domain.Users;
-using Microsoft.EntityFrameworkCore;
 
 namespace AudioProcessing.Infrastructure.Persistence
 {
@@ -18,23 +13,6 @@ namespace AudioProcessing.Infrastructure.Persistence
 
                 var chats = new List<Chat>();
 
-                //var chat = Chat.Create(new UserId(Guid.NewGuid()), "New сhat");
-
-                //chat.AddChatResponceOnText("sdfsdf");
-
-                //await context.Chats.AddAsync(chat);
-                //await context.SaveChangesAsync();
-
-
-                //var chat1 = Chat.Create(new UserId(Guid.NewGuid()), "New сhat");
-
-                //chat1.AddChatResponceOnText("sdfsdf");
-
-                //await context.Chats.AddAsync(chat1);
-                //await context.SaveChangesAsync();
-
-
-
                 for (int i = 0; i <= 100; i++)
                 {
                     var chat = Chat.Create(userId, $"Chat about AI {Guid.NewGuid()}");
@@ -45,29 +23,10 @@ namespace AudioProcessing.Infrastructure.Persistence
                     }
 
                     chats.Add(chat);
-
-                    //await context.Chats.AddAsync(chat);
-                    //await context.SaveChangesAsync();
                 }
-
 
                 await context.Chats.AddRangeAsync(chats);
                 await context.SaveChangesAsync();
-
-                //foreach (var chat in chats)
-                //{
-                //    var invalidResponses = chat.ChatResponces
-                //        .Where(response => response.PromtType == null)
-                //        .ToList();
-
-                //    foreach (var invalidResponse in invalidResponses)
-                //    {
-                //        chat.ChatResponces.Remove(invalidResponse);
-                //    }
-                //}
-
-                //await context.Chats.AddRangeAsync(chats);
-                //await context.SaveChangesAsync();
             }
         }
     }
