@@ -4,13 +4,13 @@ using AudioProcessing.Domain.Chats;
 using AudioProcessing.Aplication.Common.Models;
 using AudioProcessing.Aplication.Common.Contract;
 
-namespace AudioProcessing.Aplication.MediatR.Chats.CreateTrancription
+namespace AudioProcessing.Aplication.MediatR.Chats.CreateChatResponseOnText
 {
-    public class CreateTrancriptionCommmandHandler(
+    public class CreateChatResponseOnTextCommandHendler(
         IChatRepository chatRepository,
-        IAudioProcessingService transcriptionService) : IRequestHandler<CreateTrancriptionCommmand, Result<ChatResponseDto>>
+        IAudioProcessingService transcriptionService) : IRequestHandler<CreateChatResponseOnTextCommand, Result<ChatResponseDto>>
     {
-        public async Task<Result<ChatResponseDto>> Handle(CreateTrancriptionCommmand request, CancellationToken cancellationToken)
+        public async Task<Result<ChatResponseDto>> Handle(CreateChatResponseOnTextCommand request, CancellationToken cancellationToken)
         {
             //var transcriptionResult = await transcriptionService.CreateTranscription(request.AudioStream);
 

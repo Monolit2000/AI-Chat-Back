@@ -14,7 +14,9 @@ namespace AudioProcessing.Aplication.MediatR.Chats.ChegeChatTitel
                 return Result.Fail("Chat not found");
 
             var result = chat.ChengeChatTitel(request.NewChatTitel);
-         
+
+            await chatRepository.SaveChangesAsync(cancellationToken);
+
             return result;
         }
     }

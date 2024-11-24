@@ -4,7 +4,6 @@ using AudioProcessing.Domain.Chats;
 using AudioProcessing.Domain.Users;
 using AudioProcessing.Aplication.Common.Contract;
 using AudioProcessing.Aplication.Common.Models;
-using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponsesByChatId;
 
 namespace AudioProcessing.Aplication.MediatR.Chats.CreateChatWithTranscription
 {

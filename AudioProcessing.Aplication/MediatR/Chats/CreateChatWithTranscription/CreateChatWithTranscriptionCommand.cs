@@ -1,5 +1,4 @@
 ﻿using AudioProcessing.Aplication.DTOs;
-using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponsesByChatId;
 using FluentResults;
 using MediatR;
 using NAudio.Wave;

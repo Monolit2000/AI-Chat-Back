@@ -8,6 +8,8 @@ using AudioProcessing.Aplication.MediatR.Chats.GetAllChatsByUserId;
 using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponses;
 using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponsesByChatId;
 using AudioProcessing.Aplication.MediatR.Chats.CreateChatWithTranscription;
+using AudioProcessing.Aplication.MediatR.Chats.CreateChatResponseOnText;
+using AudioProcessing.Aplication.MediatR.Chats.ChegeChatTitel;
 
 namespace AudioProcessing.API.Controllers
 {
@@ -21,6 +23,21 @@ namespace AudioProcessing.API.Controllers
         {
             _mediator = mediator;   
         }
+
+
+
+
+        [HttpPost("createChatResponseOnText")]
+        public async Task<IActionResult> CreateChatResponseOnText([FromBody] CreateChatResponseOnTextCommand createChatResponseOnTextCommand/*, Guid userId*/)
+        {
+            var result = await _mediator.Send(createChatResponseOnTextCommand);
+
+            if (result.IsFailed)
+                return BadRequest();
+
+            return Ok(result.Value);
+        }
+
 
         [HttpPost("createTrancription")]
         [RequestSizeLimit(100000000)]
@@ -60,10 +77,14 @@ namespace AudioProcessing.API.Controllers
 
 
 
-        [HttpPost("CreateChatWithTranscriptionV2")]
-
-        public async Task<IActionResult> CreateChatWithTranscriptionV2(IFormFile audioFile)
+        [HttpPost("renameChat")]
+        public async Task<IActionResult> RenameChat([FromBody] ChegeChatTitelCommand chegeChatTitelCommand/*, Guid userId*/)
         {
+            var result = await _mediator.Send(chegeChatTitelCommand);
+
+            if (result.IsFailed)
+                return BadRequest();
+
             return Ok();
         }
 

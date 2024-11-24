@@ -4,20 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponsesByChatId
+namespace AudioProcessing.Aplication.MediatR.Chats
 {
     public class ChatResponseDto
     {
-        public Guid ChatId { get; set; }    
+        public Guid ChatId { get; set; }
         public string Conetent { get; set; }
 
         public ChatResponseDto()
         {
-            
+
         }
 
         public ChatResponseDto(
-            Guid chatId, 
+            Guid chatId,
             string conetent)
         {
             ChatId = chatId;
