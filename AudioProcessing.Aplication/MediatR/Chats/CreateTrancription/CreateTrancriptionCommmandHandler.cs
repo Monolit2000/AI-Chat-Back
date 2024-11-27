@@ -24,7 +24,7 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateTrancription
             chat.AddChatResponceOnText(transcriptionResult.Text, request.Promt);
             await chatRepository.SaveChangesAsync(cancellationToken);
 
-            return new ChatResponseDto(chat.Id.Value, transcriptionResult.Text);
+            return new ChatResponseDto(chat.Id.Value, transcriptionResult.Text, request.Promt);
         }
     }
 }

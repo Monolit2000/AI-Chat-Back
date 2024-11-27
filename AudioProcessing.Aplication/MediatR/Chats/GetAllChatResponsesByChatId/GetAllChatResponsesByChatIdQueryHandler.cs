@@ -17,9 +17,10 @@ namespace AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponsesByChatId
                 return new List<ChatResponseDto>();
 
             var responsesDto = chat.ChatResponces
-                .Select(x => new ChatResponseDto(
-                    x.ChatId.Value, 
-                    x.Content))
+                .Select(response => new ChatResponseDto(
+                    response.ChatId.Value, 
+                    response.Content,
+                    response.Promt))
                 .ToList();
 
             return responsesDto;

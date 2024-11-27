@@ -10,20 +10,70 @@ using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponsesByChatId;
 using AudioProcessing.Aplication.MediatR.Chats.CreateChatWithTranscription;
 using AudioProcessing.Aplication.MediatR.Chats.CreateChatResponseOnText;
 using AudioProcessing.Aplication.MediatR.Chats.ChegeChatTitel;
+using AudioProcessing.Aplication.Services.Ollama;
+using AudioProcessing.Aplication.Common.Contract;
+using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace AudioProcessing.API.Controllers
 {
+
+    public class ModelResponse
+    {
+        public string[] Models { get; set; }
+    }
+
+
+
     [ApiController]
     [Route("[controller]")]
     public class AudioProcessing : ControllerBase
     {
         private IMediator _mediator;
+        private IOllamaService _ollamaService;
+        private HttpClient _httpClient;
 
-        public AudioProcessing(IMediator mediator)
+        public AudioProcessing(IMediator mediator, IOllamaService ollamaService, HttpClient httpClient)
         {
             _mediator = mediator;   
+            _ollamaService = ollamaService;
+            _httpClient = httpClient;
         }
 
+
+        [HttpGet("models")]
+        public async Task<IActionResult> GetModels()
+        {
+            try
+            {
+                // Отправка GET запроса к серверу Ollama
+                var response = await _httpClient.GetAsync("http://localhost:11434/models");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+
+                    // Преобразуем ответ в список моделей (например, предполагаем JSON-формат с массивом моделей)
+                    var models = JsonConvert.DeserializeObject<ModelResponse>(content);
+
+                    return Ok(models); // Возвращаем список моделей
+                }
+
+                return StatusCode((int)response.StatusCode, "Ошибка при получении моделей");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}");
+            }
+        }
+
+
+        [HttpPost("generate-response")]
+        public async Task<IActionResult> GenerateResponse([FromBody] OllamaRequest request)
+        {
+            var responseText = await _ollamaService.GenerateResponce(request);
+            return Ok(new { Response = responseText });
+        }
 
 
 
