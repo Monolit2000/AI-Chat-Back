@@ -14,15 +14,7 @@ services:
     networks:
       - default
 
-  # ollama-service:
-  #   image: ollama/ollama:latest
-  #   # volumes:
-  #   #   - ollama:/root/.ollama
-  #   ports:
-  #     - "11434:11434"
-  #   networks:
-  #     - default
-  #   restart: always
+
 
   postgresddb:
     image: postgres:latest
@@ -48,13 +40,13 @@ services:
     networks:
       - default  
 
-  i3lab-jaeger:
-     image: jaegertracing/all-in-one:latest
-     container_name: i3lab.Jaeger
-     ports:
-       - 4317:4317
-       - 4318:4318
-       - 16686:16686
+  # i3lab-jaeger:
+  #    image: jaegertracing/all-in-one:latest
+  #    container_name: i3lab.Jaeger
+  #    ports:
+  #      - 4317:4317
+  #      - 4318:4318
+  #      - 16686:16686
 
 volumes:
   postgres_data:

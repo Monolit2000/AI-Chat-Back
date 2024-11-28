@@ -16,7 +16,15 @@ namespace AudioProcessing.Aplication
                 cfg.RegisterServicesFromAssembly(typeof(IAplication).Assembly);
             });
 
-            services.AddHttpClient<OllamaService>();
+
+            //services.AddHttpClient<OllamaService>();
+
+
+            services.AddHttpClient<IOllamaService>(client =>
+            {
+                //client.BaseAddress = new Uri("http://127.0.0.1:11434");
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            });
 
             services.AddScoped<IOllamaService, OllamaService>();
 

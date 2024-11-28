@@ -7,13 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Atc.SemanticKernel.Connectors.Ollama" Version="1.0.35" />
     <PackageReference Include="FluentResults" Version="3.16.0" />
     <PackageReference Include="Google.Apis.Drive.v3" Version="1.68.0.3568" />
     <PackageReference Include="MediatR" Version="12.4.1" />
-    <PackageReference Include="Microsoft.OpenApi" Version="1.6.22" />
+    <!--<PackageReference Include="Microsoft.OpenApi" Version="1.6.22" />-->
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.31.0" />
     <PackageReference Include="NAudio" Version="2.2.1" />
     <PackageReference Include="NAudio.Lame" Version="2.1.0" />
-    <PackageReference Include="OpenAI" Version="2.0.0" />
+    <!--<PackageReference Include="OpenAI" Version="2.1.0-beta.2" />-->
   </ItemGroup>
 
   <ItemGroup>
