@@ -7,7 +7,7 @@ using AudioProcessing.Aplication.MediatR.Chats.CreateTrancription;
 using AudioProcessing.Aplication.MediatR.Chats.GetAllChatsByUserId;
 using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponses;
 using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponsesByChatId;
-using AudioProcessing.Aplication.MediatR.Chats.CreateChatWithTranscription;
+using AudioProcessing.Aplication.MediatR.Chats.CreateChatWithChatResponse;
 using AudioProcessing.Aplication.MediatR.Chats.CreateChatResponseOnText;
 using AudioProcessing.Aplication.MediatR.Chats.ChegeChatTitel;
 using AudioProcessing.Aplication.Services.Ollama;
@@ -109,21 +109,47 @@ namespace AudioProcessing.API.Controllers
 
             return Ok(result.Value);   
         } 
+
         
-        [HttpPost("createChatWithTranscription")]
+        [HttpPost("createChatWithChatResponse")]
         [RequestSizeLimit(100000000)]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> CreateChatWithTranscription(IFormFile audioFile)
+        public async Task<IActionResult> CreateChatWithChatResponseCommand([FromForm] CreateChatWithChatResponsReques createChatWithChatResponsRequest/*, Guid userId*/)
         {
-            var command = new CreateChatWithTranscriptionCommand 
-            { 
-                UserId = Guid.NewGuid(),
-                AudioStream = audioFile.OpenReadStream()
+
+            var command = new CreateChatWithChatResponseCommand
+            {
+                AudioStream = createChatWithChatResponsRequest.AudioFile?.OpenReadStream(),
+                Promt = createChatWithChatResponsRequest.Promt
             };
 
-            var rsult = await _mediator.Send(command);
-            return Ok(rsult.Value);   
-        }
+            var result = await _mediator.Send(command);
+
+            if (result.IsFailed)
+                return BadRequest();
+
+            return Ok(result.Value);   
+        } 
+
+
+
+
+
+
+        
+        //[HttpPost("createChatWithTranscription")]
+        //[RequestSizeLimit(100000000)]
+        //[Consumes("multipart/form-data")]
+        //public async Task<IActionResult> CreateChatWithTranscription(IFormFile audioFile)
+        //{
+        //    var command = new CreateChatWithChatResponseCommand 
+        //    { 
+        //        AudioStream = audioFile.OpenReadStream()
+        //    };
+
+        //    var rsult = await _mediator.Send(command);
+        //    return Ok(rsult.Value);   
+        //}
 
 
 
