@@ -1,33 +1,21 @@
 ﻿
 using AudioProcessing.Aplication.Common.Contract;
-using System.Text;
-using System.Text.Json;
-using System.Net.Http;
 using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.ChatCompletion;
 using Atc.SemanticKernel.Connectors.Ollama.Extensions;
 using Microsoft.SemanticKernel.TextGeneration;
-using NAudio.CoreAudioApi;
 
 
 namespace AudioProcessing.Aplication.Services.Ollama
 {
     public class OllamaService : IOllamaService
     {
-        private readonly HttpClient _httpClient;
-
-        public OllamaService(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-        }
-
         public async Task<string> GenerateResponce(OllamaRequest request)
         {
 
             Kernel kernel = Kernel.CreateBuilder()
                 .AddOllamaTextGeneration(
-                        modelId: "phi3:mini",
-                        endpoint: "http://localhost:11434")
+                        modelId: "llama3.2",
+                        endpoint: "http://host.docker.internal:11434")
                     .Build();
 
             var aiChatService = kernel.GetRequiredService<ITextGenerationService>();
@@ -35,8 +23,13 @@ namespace AudioProcessing.Aplication.Services.Ollama
 
             var result = await aiChatService.GetTextContentsAsync(request.Prompt);
 
+            string resopnse = " ";
 
-                return  "No response from Ollama";
+            foreach (var item in result)
+                resopnse = resopnse + " " + item.Text;
+
+            return resopnse;    
+
             }
         }
 

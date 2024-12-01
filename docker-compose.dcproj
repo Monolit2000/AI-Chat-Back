@@ -4,7 +4,7 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
-    <ProjectGuid>dce66f3c-3fae-4b9b-aee9-707c323e9845</ProjectGuid>
+    <ProjectGuid>191dcd03-499f-4d3d-8a72-d7b0de706bac</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>audioprocessing.api</DockerServiceName>

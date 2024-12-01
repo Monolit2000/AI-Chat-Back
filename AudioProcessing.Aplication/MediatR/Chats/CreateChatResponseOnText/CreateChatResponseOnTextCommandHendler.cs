@@ -8,7 +8,8 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateChatResponseOnText
 {
     public class CreateChatResponseOnTextCommandHendler(
         IChatRepository chatRepository,
-        IAudioProcessingService transcriptionService) : IRequestHandler<CreateChatResponseOnTextCommand, Result<ChatResponseDto>>
+        IAudioProcessingService transcriptionService,
+        IOllamaService ollamaService) : IRequestHandler<CreateChatResponseOnTextCommand, Result<ChatResponseDto>>
     {
         public async Task<Result<ChatResponseDto>> Handle(CreateChatResponseOnTextCommand request, CancellationToken cancellationToken)
         {
@@ -17,7 +18,19 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateChatResponseOnText
             var defaultContent = $"CreateTrancriptionCommmand {Guid.NewGuid().ToString()} +" +
                 $" Promt: {(string.IsNullOrWhiteSpace(request.Promt) ? "None" : request.Promt)}";
 
-            var transcriptionResult = new AudioTranscriptionResponce(defaultContent);
+            AudioTranscriptionResponce transcriptionResult;
+
+            if (!string.IsNullOrWhiteSpace(request.Promt) && request.Promt.Trim().StartsWith("@o", StringComparison.OrdinalIgnoreCase))
+            {
+                var cleanedPrompt = request.Promt.Trim().Substring(2).Trim();
+
+                var specialResponse = await ollamaService.GenerateResponce(new OllamaRequest(cleanedPrompt));
+                transcriptionResult = new AudioTranscriptionResponce(specialResponse);
+            }
+            else
+            {
+                transcriptionResult = new AudioTranscriptionResponce(defaultContent);
+            }
 
             var chat = await chatRepository.GetByIdAsync(new ChatId(request.ChatId));
 
