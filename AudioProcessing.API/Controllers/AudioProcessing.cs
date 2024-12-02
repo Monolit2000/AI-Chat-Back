@@ -14,6 +14,8 @@ using AudioProcessing.Aplication.Services.Ollama;
 using AudioProcessing.Aplication.Common.Contract;
 using Newtonsoft.Json;
 using System.Net.Http;
+using AudioProcessing.Aplication.MediatR.Chats.GeneareteChatTitel;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace AudioProcessing.API.Controllers
 {
@@ -74,6 +76,19 @@ namespace AudioProcessing.API.Controllers
             var responseText = await _ollamaService.GenerateResponce(request);
             return Ok(new { Response = responseText });
         }
+
+
+        [HttpPost("geneareteChatTitel")]
+        public async Task<IActionResult> GeneareteChatTitelCommand([FromBody] GeneareteChatTitelCommand geneareteChatTitelCommand)
+        {
+            var result = await _mediator.Send(geneareteChatTitelCommand);
+
+            if (result.IsFailed)
+                return BadRequest();
+
+            return Ok(result.Value);
+        }
+
 
 
 

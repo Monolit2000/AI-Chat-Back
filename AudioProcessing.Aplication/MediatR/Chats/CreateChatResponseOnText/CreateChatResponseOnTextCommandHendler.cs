@@ -20,7 +20,9 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateChatResponseOnText
 
             AudioTranscriptionResponce transcriptionResult;
 
-            if (!string.IsNullOrWhiteSpace(request.Promt) && request.Promt.Trim().StartsWith("@o", StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrWhiteSpace(request.Promt) 
+                && (request.Promt.Trim().StartsWith("@o", StringComparison.OrdinalIgnoreCase) 
+                || request.Promt.Trim().StartsWith("@")))
             {
                 var cleanedPrompt = request.Promt.Trim().Substring(2).Trim();
 
