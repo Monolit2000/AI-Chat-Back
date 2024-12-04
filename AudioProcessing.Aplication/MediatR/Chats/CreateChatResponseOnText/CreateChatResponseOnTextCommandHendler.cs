@@ -15,18 +15,32 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateChatResponseOnText
         {
             //var transcriptionResult = await transcriptionService.CreateTranscription(request.AudioStream);
 
+            var transcriptionResult = await HendlePromptAsync(request.Promt);
+
+            var prompt = FielterPrompt(request.Promt);
+
+
+            var chat = await chatRepository.GetByIdAsync(new ChatId(request.ChatId));
+
+            chat.AddChatResponceOnText(transcriptionResult.Text, prompt);
+            await chatRepository.SaveChangesAsync(cancellationToken);
+
+            return new ChatResponseDto(chat.Id.Value, transcriptionResult.Text, prompt);
+        }
+
+
+        private async Task<AudioTranscriptionResponce> HendlePromptAsync(string prompt)
+        {
             var defaultContent = $"CreateTrancriptionCommmand {Guid.NewGuid().ToString()} +" +
-                $" Promt: {(string.IsNullOrWhiteSpace(request.Promt) ? "None" : request.Promt)}";
+           $" Promt: {(string.IsNullOrWhiteSpace(prompt) ? "None" : prompt)}";
 
             AudioTranscriptionResponce transcriptionResult;
 
-            if (!string.IsNullOrWhiteSpace(request.Promt) 
-                && (request.Promt.Trim().StartsWith("@o", StringComparison.OrdinalIgnoreCase) 
-                || request.Promt.Trim().StartsWith("@")))
+            if (!string.IsNullOrWhiteSpace(prompt) && prompt.Trim().StartsWith("@"))
             {
-                var cleanedPrompt = request.Promt.Trim().Substring(2).Trim();
+                prompt = prompt.Trim().Substring(1).Trim();
 
-                var specialResponse = await ollamaService.GenerateTextContentResponce(new OllamaRequest(cleanedPrompt));
+                var specialResponse = await ollamaService.GenerateTextContentResponce(new OllamaRequest(prompt));
                 transcriptionResult = new AudioTranscriptionResponce(specialResponse);
             }
             else
@@ -34,12 +48,17 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateChatResponseOnText
                 transcriptionResult = new AudioTranscriptionResponce(defaultContent);
             }
 
-            var chat = await chatRepository.GetByIdAsync(new ChatId(request.ChatId));
+            return transcriptionResult;
+        }
 
-            chat.AddChatResponceOnText(transcriptionResult.Text, request.Promt);
-            await chatRepository.SaveChangesAsync(cancellationToken);
+        private string FielterPrompt(string prompt)
+        {
+            if (!string.IsNullOrWhiteSpace(prompt) && prompt.Trim().StartsWith("@"))
+            {
+                prompt = prompt.Trim().Substring(1).Trim();
+            }
 
-            return new ChatResponseDto(chat.Id.Value, transcriptionResult.Text, request.Promt);
+            return prompt;
         }
     }
 }

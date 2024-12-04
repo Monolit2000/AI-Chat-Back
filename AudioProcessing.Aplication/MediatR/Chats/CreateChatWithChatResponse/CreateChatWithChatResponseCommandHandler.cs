@@ -20,9 +20,11 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateChatWithChatResponse
 
             var transcriptionResult = await HendlePromptAsync(request.Promt);
 
+            var prompt = FielterPrompt(request.Promt);
+
             var chat = Chat.Create(new UserId(Guid.NewGuid()), "New сhat");
 
-            chat.AddChatResponceOnText(transcriptionResult.Text, request.Promt);
+            chat.AddChatResponceOnText(transcriptionResult.Text, prompt);
 
             await chatRepository.AddAsync(chat, cancellationToken);
             await chatRepository.SaveChangesAsync(cancellationToken);
@@ -32,7 +34,7 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateChatWithChatResponse
                chat.ChatTitel,
                chat.CreatedDate);
 
-            return new ChatWithChatResponseDto(chatDto, transcriptionResult.Text, request.Promt);
+            return new ChatWithChatResponseDto(chatDto, transcriptionResult.Text, prompt);
 
         }
 
@@ -46,9 +48,9 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateChatWithChatResponse
 
             if (!string.IsNullOrWhiteSpace(prompt) && prompt.Trim().StartsWith("@"))
             {
-                var cleanedPrompt = prompt.Trim().Substring(2).Trim();
+                prompt = prompt.Trim().Substring(1).Trim();
 
-                var specialResponse = await ollamaService.GenerateTextContentResponce(new OllamaRequest(cleanedPrompt));
+                var specialResponse = await ollamaService.GenerateTextContentResponce(new OllamaRequest(prompt));
                 transcriptionResult = new AudioTranscriptionResponce(specialResponse);
             }
             else
@@ -58,8 +60,17 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateChatWithChatResponse
 
             return transcriptionResult; 
         }
+
+        private string FielterPrompt(string prompt)
+        {
+            if (!string.IsNullOrWhiteSpace(prompt) && prompt.Trim().StartsWith("@"))
+            {
+                prompt = prompt.Trim().Substring(1).Trim();
+            }
+
+            return prompt;
+        }
     }
 }
-
 
 /* (prompt.Trim().StartsWith("@o", StringComparison.OrdinalIgnoreCase)*/ 

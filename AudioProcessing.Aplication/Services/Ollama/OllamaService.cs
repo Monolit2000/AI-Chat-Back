@@ -1,8 +1,8 @@
 ﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.TextGeneration;
+using Microsoft.SemanticKernel.ChatCompletion;
 using AudioProcessing.Aplication.Common.Contract;
 using Atc.SemanticKernel.Connectors.Ollama.Extensions;
-using Microsoft.SemanticKernel.ChatCompletion;
 
 namespace AudioProcessing.Aplication.Services.Ollama
 {
