@@ -37,21 +37,18 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateChatWithChatResponse
         }
 
 
-        public async Task<AudioTranscriptionResponce> HendlePromptAsync(string prompt)
+        private async Task<AudioTranscriptionResponce> HendlePromptAsync(string prompt)
         {
-
             var defaultContent = $"CreateTrancriptionCommmand {Guid.NewGuid().ToString()} +" +
            $" Promt: {(string.IsNullOrWhiteSpace(prompt) ? "None" : prompt)}";
 
             AudioTranscriptionResponce transcriptionResult;
 
-            if (!string.IsNullOrWhiteSpace(prompt)
-                && (prompt.Trim().StartsWith("@o", StringComparison.OrdinalIgnoreCase)
-                || prompt.Trim().StartsWith("@")))
+            if (!string.IsNullOrWhiteSpace(prompt) && prompt.Trim().StartsWith("@"))
             {
                 var cleanedPrompt = prompt.Trim().Substring(2).Trim();
 
-                var specialResponse = await ollamaService.GenerateResponce(new OllamaRequest(cleanedPrompt));
+                var specialResponse = await ollamaService.GenerateTextContentResponce(new OllamaRequest(cleanedPrompt));
                 transcriptionResult = new AudioTranscriptionResponce(specialResponse);
             }
             else
@@ -63,3 +60,6 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateChatWithChatResponse
         }
     }
 }
+
+
+/* (prompt.Trim().StartsWith("@o", StringComparison.OrdinalIgnoreCase)*/ 

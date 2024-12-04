@@ -26,7 +26,7 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateChatResponseOnText
             {
                 var cleanedPrompt = request.Promt.Trim().Substring(2).Trim();
 
-                var specialResponse = await ollamaService.GenerateResponce(new OllamaRequest(cleanedPrompt));
+                var specialResponse = await ollamaService.GenerateTextContentResponce(new OllamaRequest(cleanedPrompt));
                 transcriptionResult = new AudioTranscriptionResponce(specialResponse);
             }
             else

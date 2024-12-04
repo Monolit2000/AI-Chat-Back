@@ -73,7 +73,7 @@ namespace AudioProcessing.API.Controllers
         [HttpPost("generate-response")]
         public async Task<IActionResult> GenerateResponse([FromBody] OllamaRequest request)
         {
-            var responseText = await _ollamaService.GenerateResponce(request);
+            var responseText = await _ollamaService.GenerateTextContentResponce(request);
             return Ok(new { Response = responseText });
         }
 

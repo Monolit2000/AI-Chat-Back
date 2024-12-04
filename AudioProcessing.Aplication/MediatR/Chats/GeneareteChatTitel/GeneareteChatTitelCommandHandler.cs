@@ -12,7 +12,7 @@ namespace AudioProcessing.Aplication.MediatR.Chats.GeneareteChatTitel
         public async Task<Result<ChatTitelDto>> Handle(GeneareteChatTitelCommand request, CancellationToken cancellationToken)
         {
 
-            var newChatTitel = await ollamaService.GenerateResponce(
+            var newChatTitel = await ollamaService.GenerateTextContentResponce(
                 new OllamaRequest($"Come up with one name for this chat in accordance with this prompt: {request.Prompt} You must give only one name that is your answer must consist of only one word and there should be no punctuation marks"));
 
             //var newChatTitel = "testname";

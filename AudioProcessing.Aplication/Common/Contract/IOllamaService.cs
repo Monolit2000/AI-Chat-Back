@@ -5,6 +5,7 @@ namespace AudioProcessing.Aplication.Common.Contract
 {
     public interface IOllamaService
     {
-        public Task<string> GenerateResponce(OllamaRequest request);
+        Task<string> GenerateTextContentResponce(OllamaRequest request);
+        Task<string> GenerateChatResponse(OllamaRequest request, IEnumerable<string> chatMessages);
     }
 }
