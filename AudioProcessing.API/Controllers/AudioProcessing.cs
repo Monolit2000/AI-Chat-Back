@@ -18,6 +18,8 @@ using AudioProcessing.Aplication.MediatR.Chats.GeneareteChatTitel;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using AudioProcessing.Aplication.Services.Chats;
 using System.Text.Json;
+using AudioProcessing.Aplication.MediatR.Chats.CreateStreamingChatResponseOnText;
+using AudioProcessing.Aplication.MediatR.Chats.CreateStreamingChatWithChatResponse;
 
 namespace AudioProcessing.API.Controllers
 {
@@ -67,8 +69,29 @@ namespace AudioProcessing.API.Controllers
 
 
 
+        //[HttpGet("createStreamingChatResponseOnText")]
+        //public async Task CreateStreamingChatResponseOnText(string chatId, string promt/*, Guid userId*/)
+        //{
+        //    Response.ContentType = "text/event-stream";
+
+        //    var options = new JsonSerializerOptions
+        //    {
+        //        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        //    };
+
+        //    await foreach (var response in _chatStreamingService.CreateStreamingChatResponseOnText(new CreateChatResponseOnTextCommand {ChatId = Guid.Parse(chatId), Promt = promt}))
+        //    {
+        //        var jsonResponse = JsonSerializer.Serialize(response, options);
+
+        //        await Response.WriteAsync($"data: {jsonResponse}\n\n");
+        //        Console.WriteLine($"Sending: {response?.Conetent}");
+        //        await Response.Body.FlushAsync();
+        //    }
+        //}
+
+
         [HttpGet("createStreamingChatResponseOnText")]
-        public async Task CreateStreamingChatResponseOnText(string chatId, string promt/*, Guid userId*/)
+        public async Task CreateStreamingChatResponseOnTextCommand(string chatId, string promt/*, Guid userId*/)
         {
             Response.ContentType = "text/event-stream";
 
@@ -77,7 +100,7 @@ namespace AudioProcessing.API.Controllers
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
 
-            await foreach (var response in _chatStreamingService.CreateStreamingChatResponseOnText(new CreateChatResponseOnTextCommand {ChatId = Guid.Parse(chatId), Promt = promt}))
+            await foreach (var response in _mediator.CreateStream(new CreateStreamingChatResponseOnTextCommand { ChatId = Guid.Parse(chatId), Promt = promt }))
             {
                 var jsonResponse = JsonSerializer.Serialize(response, options);
 
@@ -88,27 +111,62 @@ namespace AudioProcessing.API.Controllers
         }
 
 
+        //[HttpGet("createStreamingChatWithChatResponse")]
+        //public async Task CreateStreamingChatWithChatResponse(string chatId, string promt/*, Guid userId*/)
+        //{
+        //    Response.ContentType = "text/event-stream";
+
+        //    var options = new JsonSerializerOptions
+        //    {
+        //        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        //    };
+
+        //    await foreach (var response in _mediator.CreateStream(new CreateStreamingChatWithChatResponseCommand { ChatId = Guid.Parse(chatId), Promt = promt }))
+        //    {
+        //        var jsonResponse = JsonSerializer.Serialize(response, options);
+
+        //        await Response.WriteAsync($"data: {jsonResponse}\n\n");
+        //        Console.WriteLine($"Sending: {response?.Conetent}");
+        //        await Response.Body.FlushAsync();
+        //    }
+        //}
 
 
-
-
-        [HttpGet("streamChat-sse")]
-        public async Task StreamChatAsync(CancellationToken cancellationToken)
+        [HttpPost("createStreamingChatWithChatResponse")]
+        public async Task CreateStreamingChatWithChatResponse([FromForm] CreateChatWithChatResponsReques createChatWithChatResponsRequest)
         {
             Response.ContentType = "text/event-stream";
-
-            await foreach (var response in _ollamaService.GenerateStreamingChatResponse(new OllamaRequest("send big leter on 200 words"), ["string"]))
+            
+            var options = new JsonSerializerOptions
             {
-                await Response.WriteAsync($"data: {response.Content}\n\n");
-                //await Task.Delay(200);
-                Console.WriteLine($"Sending: {response.Content}");
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+
+            Stream? audioStreamData = null;
+
+            if (createChatWithChatResponsRequest.AudioFile != null)
+            {
+                // —читываем переданный файл в Stream
+                audioStreamData = createChatWithChatResponsRequest.AudioFile?.OpenReadStream();
+            }
+
+            var command = new CreateStreamingChatWithChatResponseCommand
+            {
+                Promt = createChatWithChatResponsRequest.Promt,
+                AudioStream = audioStreamData
+            };
+
+            await foreach (var response in _mediator.CreateStream(command))
+            {
+                var jsonResponse = JsonSerializer.Serialize(response, options);
+
+                await Response.WriteAsync($"data: {jsonResponse}\n\n");
+                Console.WriteLine($"Sending: {response?.Conetent}");
                 await Response.Body.FlushAsync();
             }
         }
 
 
-
-      
 
 
         [HttpPost("generate-response")]

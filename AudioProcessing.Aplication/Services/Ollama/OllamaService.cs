@@ -1,13 +1,11 @@
-﻿using Microsoft.SemanticKernel;
+﻿using OllamaSharp;
+using OllamaSharp.Models;
+using Microsoft.Extensions.AI;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.TextGeneration;
 using Microsoft.SemanticKernel.ChatCompletion;
 using AudioProcessing.Aplication.Common.Contract;
 using Atc.SemanticKernel.Connectors.Ollama.Extensions;
-using OllamaSharp;
-using Google.Apis.Drive.v3.Data;
-using OllamaSharp.Models;
-using System.Security.AccessControl;
-using Microsoft.Extensions.AI;
 
 namespace AudioProcessing.Aplication.Services.Ollama
 {
@@ -19,7 +17,6 @@ namespace AudioProcessing.Aplication.Services.Ollama
 
         public OllamaService()
         {
-
             Kernel kernel = Kernel.CreateBuilder()
             .AddOllamaTextGeneration(
                     modelId: "phi3",
@@ -32,7 +29,6 @@ namespace AudioProcessing.Aplication.Services.Ollama
             _textGenerationService = kernel.GetRequiredService<ITextGenerationService>();
 
             _chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
-
 
             _ollamaApiClient = new OllamaApiClient("http://host.docker.internal:11434");
 
@@ -58,25 +54,25 @@ namespace AudioProcessing.Aplication.Services.Ollama
         }
 
 
-        public async Task<string> GenerateChatResponse(OllamaRequest request, IEnumerable<string> chatMessages)
-        {
-            var chatHistory = new ChatHistory(chatMessages.Select( x => new ChatMessageContent(AuthorRole.User, x)));
+        //public async Task<string> GenerateChatResponse(OllamaRequest request, IEnumerable<string> chatMessages)
+        //{
+        //    var chatHistory = new ChatHistory(chatMessages.Select( x => new ChatMessageContent(AuthorRole.User, x)));
 
-            var result = await _chatCompletionService.GetChatMessageContentsAsync(chatHistory);
+        //    var result = await _chatCompletionService.GetChatMessageContentsAsync(chatHistory);
 
-            var response = string.Join(" ",  result.Select(item => item.Content)) ?? "Error receiving response";
+        //    var response = string.Join(" ",  result.Select(item => item.Content)) ?? "Error receiving response";
 
-            return response;
-        }
+        //    return response;
+        //}
 
-        public IAsyncEnumerable<StreamingChatMessageContent> GenerateStreamingChatResponse(OllamaRequest request, IEnumerable<string> chatMessages)
-        {
-            var chatHistory = new ChatHistory(chatMessages.Select(x => new ChatMessageContent(AuthorRole.User, x)));
+        //public IAsyncEnumerable<StreamingChatMessageContent> GenerateStreamingChatResponse(OllamaRequest request, IEnumerable<string> chatMessages)
+        //{
+        //    var chatHistory = new ChatHistory(chatMessages.Select(x => new ChatMessageContent(AuthorRole.User, x)));
 
-            var result = _chatCompletionService.GetStreamingChatMessageContentsAsync(chatHistory);
+        //    var result = _chatCompletionService.GetStreamingChatMessageContentsAsync(chatHistory);
             
-            return result;
-        }
+        //    return result;
+        //}
     }
 
 }

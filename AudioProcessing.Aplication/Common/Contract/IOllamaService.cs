@@ -8,8 +8,9 @@ namespace AudioProcessing.Aplication.Common.Contract
     public interface IOllamaService
     {
         Task<string> GenerateTextContentResponce(OllamaRequest request);
-        Task<string> GenerateChatResponse(OllamaRequest request, IEnumerable<string> chatMessages);
+
         IAsyncEnumerable<GenerateResponseStream?> GenerateStreameTextContentResponce(OllamaRequest request);
-        IAsyncEnumerable<StreamingChatMessageContent> GenerateStreamingChatResponse(OllamaRequest request, IEnumerable<string> chatMessages);
+        //Task<string> GenerateChatResponse(OllamaRequest request, IEnumerable<string> chatMessages);
+        //IAsyncEnumerable<StreamingChatMessageContent> GenerateStreamingChatResponse(OllamaRequest request, IEnumerable<string> chatMessages);
     }
 }

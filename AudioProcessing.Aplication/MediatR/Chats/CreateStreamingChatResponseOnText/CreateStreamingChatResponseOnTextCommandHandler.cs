@@ -1,16 +1,20 @@
 ﻿using AudioProcessing.Aplication.Common.Contract;
-using AudioProcessing.Aplication.MediatR.Chats;
-using AudioProcessing.Aplication.MediatR.Chats.CreateChatResponseOnText;
 using AudioProcessing.Domain.Chats;
+using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace AudioProcessing.Aplication.Services.Chats
+namespace AudioProcessing.Aplication.MediatR.Chats.CreateStreamingChatResponseOnText
 {
-    public class ChatStreamingService(
+    public class CreateStreamingChatResponseOnTextCommandHandler(
         IOllamaService ollamaService,
         IChatRepository chatRepository,
-        IAudioProcessingService transcriptionService) : IChatStreamingService
+        IAudioProcessingService transcriptionService) : IStreamRequestHandler<CreateStreamingChatResponseOnTextCommand, ChatResponseDto>
     {
-        public async IAsyncEnumerable<ChatResponseDto> CreateStreamingChatResponseOnText(CreateChatResponseOnTextCommand request, CancellationToken cancellationToken = default)
+        public async IAsyncEnumerable<ChatResponseDto> Handle(CreateStreamingChatResponseOnTextCommand request, CancellationToken cancellationToken)
         {
             var chat = await chatRepository.GetByIdAsync(new ChatId(request.ChatId), cancellationToken);
 
@@ -33,8 +37,8 @@ namespace AudioProcessing.Aplication.Services.Chats
             {
                 if (response != null)
                 {
-                    fullResponse += response.Response; 
-                    yield return new ChatResponseDto(chat.Id.Value, response.Response, prompt) ;   
+                    fullResponse += response.Response;
+                    yield return new ChatResponseDto(chat.Id.Value, response.Response, prompt);
                 }
             }
 
