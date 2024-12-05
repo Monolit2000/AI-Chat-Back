@@ -12,10 +12,12 @@ using AudioProcessing.Aplication.MediatR.Chats.CreateChatResponseOnText;
 using AudioProcessing.Aplication.MediatR.Chats.ChegeChatTitel;
 using AudioProcessing.Aplication.Services.Ollama;
 using AudioProcessing.Aplication.Common.Contract;
-using Newtonsoft.Json;
+//using Newtonsoft.Json;
 using System.Net.Http;
 using AudioProcessing.Aplication.MediatR.Chats.GeneareteChatTitel;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using AudioProcessing.Aplication.Services.Chats;
+using System.Text.Json;
 
 namespace AudioProcessing.API.Controllers
 {
@@ -34,40 +36,75 @@ namespace AudioProcessing.API.Controllers
         private IMediator _mediator;
         private IOllamaService _ollamaService;
         private HttpClient _httpClient;
+        private IChatStreamingService _chatStreamingService;
 
-        public AudioProcessing(IMediator mediator, IOllamaService ollamaService, HttpClient httpClient)
+        public AudioProcessing(
+            IMediator mediator, 
+            IOllamaService ollamaService, 
+            HttpClient httpClient,
+            IChatStreamingService chatStreamingService)
         {
             _mediator = mediator;   
             _ollamaService = ollamaService;
             _httpClient = httpClient;
+            _chatStreamingService = chatStreamingService;
         }
 
 
-        [HttpGet("models")]
-        public async Task<IActionResult> GetModels()
+        [HttpGet("stream-sse")]
+        public async Task StreamAsync(CancellationToken cancellationToken)
         {
-            try
+            Response.ContentType = "text/event-stream";
+
+            await foreach (var response in _ollamaService.GenerateStreameTextContentResponce(new OllamaRequest("send big leter on 200 words")))
             {
-                // Отправка GET запроса к серверу Ollama
-                var response = await _httpClient.GetAsync("http://localhost:11434/models");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-
-                    // Преобразуем ответ в список моделей (например, предполагаем JSON-формат с массивом моделей)
-                    var models = JsonConvert.DeserializeObject<ModelResponse>(content);
-
-                    return Ok(models); // Возвращаем список моделей
-                }
-
-                return StatusCode((int)response.StatusCode, "Ошибка при получении моделей");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}");
+                await Response.WriteAsync($"data: {response?.Response}\n\n");
+                //await Task.Delay(200);
+                Console.WriteLine($"Sending: {response?.Response}");
+                await Response.Body.FlushAsync(); 
             }
         }
+
+
+
+        [HttpPost("createStreamingChatResponseOnText")]
+        public async Task CreateStreamingChatResponseOnText([FromBody] CreateChatResponseOnTextCommand createChatResponseOnTextCommand/*, Guid userId*/)
+        {
+            Response.ContentType = "text/event-stream";
+
+            await foreach (var response in _chatStreamingService.CreateStreamingChatResponseOnText(createChatResponseOnTextCommand))
+            {
+                var json = JsonSerializer.Serialize(response);
+
+                await Response.WriteAsync($"data: {json}\n\n");
+                //await Task.Delay(200);
+                Console.WriteLine($"Sending: {response?.Conetent}");
+                await Response.Body.FlushAsync();
+            }
+        }
+
+
+
+
+
+
+        [HttpGet("streamChat-sse")]
+        public async Task StreamChatAsync(CancellationToken cancellationToken)
+        {
+            Response.ContentType = "text/event-stream";
+
+            await foreach (var response in _ollamaService.GenerateStreamingChatResponse(new OllamaRequest("send big leter on 200 words"), ["string"]))
+            {
+                await Response.WriteAsync($"data: {response.Content}\n\n");
+                //await Task.Delay(200);
+                Console.WriteLine($"Sending: {response.Content}");
+                await Response.Body.FlushAsync();
+            }
+        }
+
+
+
+      
 
 
         [HttpPost("generate-response")]
@@ -102,6 +139,9 @@ namespace AudioProcessing.API.Controllers
 
             return Ok(result.Value);
         }
+
+
+
 
 
         [HttpPost("createTrancription")]

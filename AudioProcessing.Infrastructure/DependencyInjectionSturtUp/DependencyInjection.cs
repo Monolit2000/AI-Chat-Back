@@ -5,6 +5,7 @@ using AudioProcessing.Domain.Chats;
 using AudioProcessing.Infrastructure.Domain.Chats;
 using AudioProcessing.Aplication.Services;
 using AudioProcessing.Aplication.Services.Ollama;
+using AudioProcessing.Aplication.Services.Chats;
 namespace AudioProcessing.Aplication
 {
     public static class DependencyInjection
@@ -33,6 +34,7 @@ namespace AudioProcessing.Aplication
 
             services.AddScoped<ISplitAudioService, SplitAudioService>();
             services.AddScoped<IAudioProcessingService, AudioProcessingService>();
+            services.AddScoped<IChatStreamingService, ChatStreamingService>();
            
 
             return services;

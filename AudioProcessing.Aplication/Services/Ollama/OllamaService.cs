@@ -3,6 +3,11 @@ using Microsoft.SemanticKernel.TextGeneration;
 using Microsoft.SemanticKernel.ChatCompletion;
 using AudioProcessing.Aplication.Common.Contract;
 using Atc.SemanticKernel.Connectors.Ollama.Extensions;
+using OllamaSharp;
+using Google.Apis.Drive.v3.Data;
+using OllamaSharp.Models;
+using System.Security.AccessControl;
+using Microsoft.Extensions.AI;
 
 namespace AudioProcessing.Aplication.Services.Ollama
 {
@@ -10,32 +15,48 @@ namespace AudioProcessing.Aplication.Services.Ollama
     {
         private ITextGenerationService _textGenerationService;
         private IChatCompletionService _chatCompletionService;
+        private readonly OllamaApiClient _ollamaApiClient;
 
         public OllamaService()
         {
 
             Kernel kernel = Kernel.CreateBuilder()
             .AddOllamaTextGeneration(
-                    modelId: "llama3.2",
+                    modelId: "phi3",
                     endpoint: "http://host.docker.internal:11434")
             .AddOllamaChatCompletion(
-                    modelId: "llama3.2",
+                    modelId: "phi3",
                     endpoint: "http://host.docker.internal:11434")
                 .Build();
 
             _textGenerationService = kernel.GetRequiredService<ITextGenerationService>();
 
             _chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
+
+
+            _ollamaApiClient = new OllamaApiClient("http://host.docker.internal:11434");
+
+            _ollamaApiClient.SelectedModel = "phi3";
         }
 
         public async Task<string> GenerateTextContentResponce(OllamaRequest request)
         {
-            var result = await _textGenerationService.GetTextContentsAsync(request.Prompt);
+            //var result = await _textGenerationService.GetTextContentsAsync(request.Prompt);
+            var result = await _ollamaApiClient.CompleteAsync(request.Prompt);
 
-            string response = string.Join(" ", result.Select(item => item.Text));
+            string response = string.Join(" ", result.Message.Contents.Select(item => item));
 
             return response;
         }
+
+
+        public IAsyncEnumerable<GenerateResponseStream?> GenerateStreameTextContentResponce(OllamaRequest request)
+        {
+            var result = _ollamaApiClient.GenerateAsync(request.Prompt);
+
+            return result;
+        }
+
 
         public async Task<string> GenerateChatResponse(OllamaRequest request, IEnumerable<string> chatMessages)
         {
@@ -46,6 +67,15 @@ namespace AudioProcessing.Aplication.Services.Ollama
             var response = string.Join(" ",  result.Select(item => item.Content)) ?? "Error receiving response";
 
             return response;
+        }
+
+        public IAsyncEnumerable<StreamingChatMessageContent> GenerateStreamingChatResponse(OllamaRequest request, IEnumerable<string> chatMessages)
+        {
+            var chatHistory = new ChatHistory(chatMessages.Select(x => new ChatMessageContent(AuthorRole.User, x)));
+
+            var result = _chatCompletionService.GetStreamingChatMessageContentsAsync(chatHistory);
+            
+            return result;
         }
     }
 
