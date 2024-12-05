@@ -67,17 +67,21 @@ namespace AudioProcessing.API.Controllers
 
 
 
-        [HttpPost("createStreamingChatResponseOnText")]
-        public async Task CreateStreamingChatResponseOnText([FromBody] CreateChatResponseOnTextCommand createChatResponseOnTextCommand/*, Guid userId*/)
+        [HttpGet("createStreamingChatResponseOnText")]
+        public async Task CreateStreamingChatResponseOnText(string chatId, string promt/*, Guid userId*/)
         {
             Response.ContentType = "text/event-stream";
 
-            await foreach (var response in _chatStreamingService.CreateStreamingChatResponseOnText(createChatResponseOnTextCommand))
+            var options = new JsonSerializerOptions
             {
-                var json = JsonSerializer.Serialize(response);
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
 
-                await Response.WriteAsync($"data: {json}\n\n");
-                //await Task.Delay(200);
+            await foreach (var response in _chatStreamingService.CreateStreamingChatResponseOnText(new CreateChatResponseOnTextCommand {ChatId = Guid.Parse(chatId), Promt = promt}))
+            {
+                var jsonResponse = JsonSerializer.Serialize(response, options);
+
+                await Response.WriteAsync($"data: {jsonResponse}\n\n");
                 Console.WriteLine($"Sending: {response?.Conetent}");
                 await Response.Body.FlushAsync();
             }
