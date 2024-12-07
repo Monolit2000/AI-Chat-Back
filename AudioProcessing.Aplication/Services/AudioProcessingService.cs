@@ -7,7 +7,6 @@ namespace AudioProcessing.Aplication.Services
         ISplitAudioService splitAudioService,
         IAudioTranscriptionService audioTranscriptionService) : IAudioProcessingService
     {
-
         public async Task<AudioTranscriptionResponce> CreateTranscription(Stream audioStream/*MemoryStream trimmedAudio*/)
         {
             var trimmedAudio = await ProcessAudioStream(audioStream);

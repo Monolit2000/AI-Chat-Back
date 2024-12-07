@@ -13,7 +13,7 @@ namespace AudioProcessing.Infrastructure.Persistence
 
                 var chats = new List<Chat>();
 
-                for (int i = 0; i <= 15; i++)
+                for (int i = 0; i <= 5; i++)
                 {
                     var chat = Chat.Create(userId, $"Chat about AI {Guid.NewGuid()}");
 

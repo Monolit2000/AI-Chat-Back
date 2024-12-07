@@ -17,7 +17,7 @@ namespace AudioProcessing.Aplication.Services.Ollama
         {
             _ollamaApiClient = new OllamaApiClient("http://host.docker.internal:11434");
 
-            _ollamaApiClient.SelectedModel = "phi3";
+            _ollamaApiClient.SelectedModel = "llama3.2";
         }
 
         public async Task<string> GenerateTextContentResponce(
