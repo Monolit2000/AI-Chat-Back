@@ -7,10 +7,10 @@ namespace AudioProcessing.Aplication.Common.Contract
 {
     public interface IOllamaService
     {
-        Task<string> GenerateTextContentResponce(OllamaRequest request);
+        Task<string> GenerateTextContentResponce(OllamaRequest request, CancellationToken cancellationToken = default);
+        IAsyncEnumerable<GenerateResponseStream?> GenerateStreameTextContentResponce(OllamaRequest request, CancellationToken cancellationToken = default);
+        IAsyncEnumerable<string> GenerateStreamingChatResponse(OllamaRequest request, IEnumerable<(string Role, string Message)> chatMessages, CancellationToken cancellationToken = default);
 
-        IAsyncEnumerable<GenerateResponseStream?> GenerateStreameTextContentResponce(OllamaRequest request);
         //Task<string> GenerateChatResponse(OllamaRequest request, IEnumerable<string> chatMessages);
-        //IAsyncEnumerable<StreamingChatMessageContent> GenerateStreamingChatResponse(OllamaRequest request, IEnumerable<string> chatMessages);
     }
 }

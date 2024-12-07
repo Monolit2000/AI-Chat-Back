@@ -19,7 +19,7 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateStreamingChatWithChatRe
 
             var prompt = FielterPrompt(request.Promt);
 
-            var stream = ollamaService.GenerateStreameTextContentResponce(new OllamaRequest(prompt));
+            var stream = ollamaService.GenerateStreameTextContentResponce(new OllamaRequest(prompt), cancellationToken);
 
             var fullResponse = string.Empty;
 

@@ -1,44 +1,29 @@
 ﻿using OllamaSharp;
 using OllamaSharp.Models;
 using Microsoft.Extensions.AI;
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.TextGeneration;
-using Microsoft.SemanticKernel.ChatCompletion;
 using AudioProcessing.Aplication.Common.Contract;
-using Atc.SemanticKernel.Connectors.Ollama.Extensions;
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
+using System.Linq;
+using NAudio.CoreAudioApi;
 
 namespace AudioProcessing.Aplication.Services.Ollama
 {
     public class OllamaService : IOllamaService
     {
-        private ITextGenerationService _textGenerationService;
-        private IChatCompletionService _chatCompletionService;
         private readonly OllamaApiClient _ollamaApiClient;
 
         public OllamaService()
         {
-            Kernel kernel = Kernel.CreateBuilder()
-            .AddOllamaTextGeneration(
-                    modelId: "phi3",
-                    endpoint: "http://host.docker.internal:11434")
-            .AddOllamaChatCompletion(
-                    modelId: "phi3",
-                    endpoint: "http://host.docker.internal:11434")
-                .Build();
-
-            _textGenerationService = kernel.GetRequiredService<ITextGenerationService>();
-
-            _chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
-
             _ollamaApiClient = new OllamaApiClient("http://host.docker.internal:11434");
 
             _ollamaApiClient.SelectedModel = "phi3";
         }
 
-        public async Task<string> GenerateTextContentResponce(OllamaRequest request)
+        public async Task<string> GenerateTextContentResponce(
+            OllamaRequest request, CancellationToken cancellationToken = default)
         {
-            //var result = await _textGenerationService.GetTextContentsAsync(request.Prompt);
-            var result = await _ollamaApiClient.CompleteAsync(request.Prompt);
+            var result = await _ollamaApiClient.CompleteAsync(request.Prompt, cancellationToken: cancellationToken);
 
             string response = string.Join(" ", result.Message.Contents.Select(item => item));
 
@@ -46,33 +31,29 @@ namespace AudioProcessing.Aplication.Services.Ollama
         }
 
 
-        public IAsyncEnumerable<GenerateResponseStream?> GenerateStreameTextContentResponce(OllamaRequest request)
+        public IAsyncEnumerable<GenerateResponseStream?> GenerateStreameTextContentResponce(OllamaRequest request, CancellationToken cancellationToken = default)
         {
-            var result = _ollamaApiClient.GenerateAsync(request.Prompt);
+            var result = _ollamaApiClient.GenerateAsync(request.Prompt, cancellationToken: cancellationToken);
 
             return result;
         }
 
+        public IAsyncEnumerable<string> GenerateStreamingChatResponse(
+            OllamaRequest request, 
+            IEnumerable<(string Role, string Message)> chatMessages, 
+            CancellationToken cancellationToken = default)
+        {
+            var chat = new Chat(_ollamaApiClient);
 
-        //public async Task<string> GenerateChatResponse(OllamaRequest request, IEnumerable<string> chatMessages)
-        //{
-        //    var chatHistory = new ChatHistory(chatMessages.Select( x => new ChatMessageContent(AuthorRole.User, x)));
+            chat.Messages = chatMessages.Select(x => new OllamaSharp.Models.Chat.Message(
+                x.Role == "chat" ? OllamaSharp.Models.Chat.ChatRole.Assistant : OllamaSharp.Models.Chat.ChatRole.User, 
+                x.Message))
+                .ToList();
 
-        //    var result = await _chatCompletionService.GetChatMessageContentsAsync(chatHistory);
+            var result = chat.SendAsync(request.Prompt);
 
-        //    var response = string.Join(" ",  result.Select(item => item.Content)) ?? "Error receiving response";
-
-        //    return response;
-        //}
-
-        //public IAsyncEnumerable<StreamingChatMessageContent> GenerateStreamingChatResponse(OllamaRequest request, IEnumerable<string> chatMessages)
-        //{
-        //    var chatHistory = new ChatHistory(chatMessages.Select(x => new ChatMessageContent(AuthorRole.User, x)));
-
-        //    var result = _chatCompletionService.GetStreamingChatMessageContentsAsync(chatHistory);
-            
-        //    return result;
-        //}
+            return result;
+        }
     }
 
 }

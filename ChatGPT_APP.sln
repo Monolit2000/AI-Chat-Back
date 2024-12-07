@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "web_API", "web_API\web_API.csproj", "{C2939E3B-7103-490B-9099-1023FDD77F03}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{BE4820FD-2B02-4355-AF13-63DE6602CB5C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AudioProcessing", "AudioProcessing", "{E84D0159-9B8C-4B62-A3AD-90A680E6C06B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioProcessing.API", "AudioProcessing.API\AudioProcessing.API.csproj", "{A25169FF-091F-40B6-847F-C9158DF62953}"
@@ -32,10 +28,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C2939E3B-7103-490B-9099-1023FDD77F03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2939E3B-7103-490B-9099-1023FDD77F03}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C2939E3B-7103-490B-9099-1023FDD77F03}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C2939E3B-7103-490B-9099-1023FDD77F03}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A25169FF-091F-40B6-847F-C9158DF62953}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A25169FF-091F-40B6-847F-C9158DF62953}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A25169FF-091F-40B6-847F-C9158DF62953}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -65,7 +57,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C2939E3B-7103-490B-9099-1023FDD77F03} = {BE4820FD-2B02-4355-AF13-63DE6602CB5C}
 		{A25169FF-091F-40B6-847F-C9158DF62953} = {E84D0159-9B8C-4B62-A3AD-90A680E6C06B}
 		{31511556-CE9C-457A-8E98-32E9A6F64102} = {E84D0159-9B8C-4B62-A3AD-90A680E6C06B}
 		{FFC83003-D14C-49D0-AFBD-4A0F5B6A5CB5} = {E84D0159-9B8C-4B62-A3AD-90A680E6C06B}

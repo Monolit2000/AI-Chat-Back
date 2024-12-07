@@ -24,11 +24,7 @@ using AudioProcessing.Aplication.MediatR.Chats.CreateStreamingChatWithChatRespon
 namespace AudioProcessing.API.Controllers
 {
 
-    public class ModelResponse
-    {
-        public string[] Models { get; set; }
-    }
-
+ 
 
 
     [ApiController]
@@ -91,7 +87,7 @@ namespace AudioProcessing.API.Controllers
 
 
         [HttpGet("createStreamingChatResponseOnText")]
-        public async Task CreateStreamingChatResponseOnTextCommand(string chatId, string promt/*, Guid userId*/)
+        public async Task CreateStreamingChatResponseOnTextCommand(string chatId, string promt, CancellationToken cancellationToken)
         {
             Response.ContentType = "text/event-stream";
 
@@ -100,7 +96,9 @@ namespace AudioProcessing.API.Controllers
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
 
-            await foreach (var response in _mediator.CreateStream(new CreateStreamingChatResponseOnTextCommand { ChatId = Guid.Parse(chatId), Promt = promt }))
+            var command = new CreateStreamingChatResponseOnTextCommand { ChatId = Guid.Parse(chatId), Promt = promt };
+
+            await foreach (var response in _mediator.CreateStream(command, cancellationToken))
             {
                 var jsonResponse = JsonSerializer.Serialize(response, options);
 
@@ -133,7 +131,7 @@ namespace AudioProcessing.API.Controllers
 
 
         [HttpPost("createStreamingChatWithChatResponse")]
-        public async Task CreateStreamingChatWithChatResponse([FromForm] CreateChatWithChatResponsReques createChatWithChatResponsRequest)
+        public async Task CreateStreamingChatWithChatResponse([FromForm] CreateChatWithChatResponsReques createChatWithChatResponsRequest, CancellationToken cancellationToken)
         {
             Response.ContentType = "text/event-stream";
             
@@ -156,7 +154,7 @@ namespace AudioProcessing.API.Controllers
                 AudioStream = audioStreamData
             };
 
-            await foreach (var response in _mediator.CreateStream(command))
+            await foreach (var response in _mediator.CreateStream(command, cancellationToken))
             {
                 var jsonResponse = JsonSerializer.Serialize(response, options);
 
