@@ -40,5 +40,11 @@ namespace AudioProcessing.Domain.Chats
 
         public static ChatResponce CreateResponceOnAudio(ChatId chatId, AudioId audioId, string promt, string content) 
             => new ChatResponce(chatId, PromtType.Audio, promt, content, audioId);
+
+
+        public void UpdateContent(string content)
+        {
+            Content += $" {content}";  
+        }
     }
 }

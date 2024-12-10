@@ -7,11 +7,11 @@ using AudioProcessing.Aplication.MediatR.Chats.CreateChatWithChatResponse;
 
 namespace AudioProcessing.Aplication.MediatR.Chats.CreateStreamingChatWithChatResponse
 {
-    public class CreateStreamingChatWithChatResponseCommandHandler(
+    public class CreateChatWithStreamingChatResponseCommandHandler(
         IOllamaService ollamaService,
-        IChatRepository chatRepository) : IStreamRequestHandler<CreateStreamingChatWithChatResponseCommand, ChatWithChatResponseDto>
+        IChatRepository chatRepository) : IStreamRequestHandler<CreateChatWithStreamingChatResponseCommand, ChatWithChatResponseDto>
     {
-        public async IAsyncEnumerable<ChatWithChatResponseDto> Handle(CreateStreamingChatWithChatResponseCommand request, [EnumeratorCancellation] CancellationToken cancellationToken)
+        public async IAsyncEnumerable<ChatWithChatResponseDto> Handle(CreateChatWithStreamingChatResponseCommand request, [EnumeratorCancellation] CancellationToken cancellationToken)
         {
             var chat = Chat.Create(new UserId(Guid.NewGuid()), "New streaming chat");
             await chatRepository.AddAsync(chat, cancellationToken);
@@ -28,7 +28,6 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateStreamingChatWithChatRe
                 if (response != null)
                 {
                     fullResponse += response.Response;
-
                   
                     yield return new ChatWithChatResponseDto(
                         new ChatDto(
@@ -43,18 +42,20 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateStreamingChatWithChatRe
             if (!string.IsNullOrWhiteSpace(fullResponse))
             {
                 chat.AddChatResponceOnText(fullResponse, prompt);
-                await chatRepository.SaveChangesAsync(cancellationToken);
+                await chatRepository.SaveChangesAsync();
             }
         }
 
-        private string FielterPrompt(string prompt)
-        {
-            if (!string.IsNullOrWhiteSpace(prompt) && prompt.Trim().StartsWith("@"))
-            {
-                prompt = prompt.Trim().Substring(1).Trim();
-            }
-
-            return prompt;
-        }
+        private string FielterPrompt(string prompt, string specificChar = "@") 
+            => !string.IsNullOrWhiteSpace(prompt) && prompt.Trim().StartsWith(specificChar) ? prompt.Trim().Substring(1).Trim() : prompt;
     }
 }
+
+
+//private string FielterPrompt(string prompt)
+//{
+//    if (!string.IsNullOrWhiteSpace(prompt) && prompt.Trim().StartsWith("@"))
+//        prompt = prompt.Trim().Substring(1).Trim();
+
+//    return prompt;
+//}

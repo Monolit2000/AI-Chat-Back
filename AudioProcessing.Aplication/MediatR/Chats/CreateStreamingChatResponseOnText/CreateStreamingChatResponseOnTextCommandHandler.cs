@@ -23,20 +23,15 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateStreamingChatResponseOn
 
             IAsyncEnumerable<string> streaming;
 
-
-            //if (prompt.Trim().StartsWith("@"))
-            //    prompt = prompt.Trim().Substring(1).Trim();
-
-
             if (!prompt.Trim().StartsWith("@"))
             {
-                //prompt = prompt.Trim().Substring(1).Trim();
                 streaming = ConvertToStringsAsync(
                     ollamaService.GenerateStreameTextContentResponce(new OllamaRequest(prompt), cancellationToken));
             }
             else
             {
-                prompt = prompt.Trim().Substring(1).Trim();
+                prompt = FielterPrompt(prompt);
+
                 streaming = ollamaService.GenerateStreamingChatResponse(
                     new OllamaRequest(prompt),
                     chat.ChatResponces.SelectMany(x => new List<(string Role, string Message)>
@@ -47,40 +42,26 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateStreamingChatResponseOn
                     cancellationToken);
             }
 
-
-            //var stream = ollamaService.GenerateStreameTextContentResponce(new OllamaRequest(prompt), cancellationToken);
-
-            //var stream = ollamaService.GenerateStreamingChatResponse(
-            //    new OllamaRequest(prompt),
-            //    chat.ChatResponces.SelectMany(x => new List<(string Role, string Message)> { (Role: "chat", Message: x.Content), (Role: "user", Message: x.Promt) }), 
-            //    cancellationToken);
-
             var fullResponse = string.Empty;
-
-            
-
 
             await foreach (var response in streaming.WithCancellation(cancellationToken))
             {
                 if (response != null)
                 {
-                    //fullResponse += response.Response;
-                    //yield return new ChatResponseDto(chat.Id.Value, response.Response, prompt);
-
                     fullResponse += response;
                     yield return new ChatResponseDto(chat.Id.Value, response, prompt);
                 }
             }
 
+            if(string.IsNullOrWhiteSpace(fullResponse))
+                throw new InvalidOperationException($"Null response");
 
-           
-
-            if (!string.IsNullOrWhiteSpace(fullResponse))
-            {
-                chat.AddChatResponceOnText(fullResponse, prompt);
-                await chatRepository.SaveChangesAsync(cancellationToken);
-            }
+            chat.AddChatResponceOnText(fullResponse, prompt);
+            await chatRepository.SaveChangesAsync();
         }
+
+        private string FielterPrompt(string prompt, string specificChar = "@")
+         => !string.IsNullOrWhiteSpace(prompt) && prompt.Trim().StartsWith(specificChar) ? prompt.Trim().Substring(1).Trim() : prompt;
 
         private async IAsyncEnumerable<string> ConvertToStringsAsync(
             IAsyncEnumerable<OllamaSharp.Models.GenerateResponseStream?> responses)

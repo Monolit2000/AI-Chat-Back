@@ -33,14 +33,28 @@ namespace AudioProcessing.Domain.Chats
         public static Chat Create(UserId userId,string chatTitel)
             => new Chat(userId, chatTitel);
 
-        public Result AddChatResponceOnText(string content, string promt = default)
+        public Result<ChatResponceId> AddChatResponceOnText(string content, string promt = default)
         {
             var chatResponse = ChatResponce.CreateResponceOnText(this.Id, promt ?? "None", content);
-            ChatResponces.Add(chatResponse);    
+            ChatResponces.Add(chatResponse);
+
+            return chatResponse.Id;
+        }
+
+        public Result UpdateChatResponceOnText(ChatResponceId chatResponceId, string content, string promt = default)
+        {
+            var chatResponse = ChatResponces.FirstOrDefault(x => x.Id == chatResponceId);
+
+            if(chatResponse is null)
+                return Result.Ok();
+
+            chatResponse.UpdateContent(content);
 
             return Result.Ok();
-        }  
-        
+        }
+
+
+
         public Result AddChatResponceOnAudio(AudioId audioId, string promt, string content)
         {
             var chatResponse = ChatResponce.CreateResponceOnAudio(this.Id, audioId, promt, content);

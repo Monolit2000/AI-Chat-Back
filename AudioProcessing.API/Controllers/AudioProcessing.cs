@@ -119,7 +119,7 @@ namespace AudioProcessing.API.Controllers
         //        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         //    };
 
-        //    await foreach (var response in _mediator.CreateStream(new CreateStreamingChatWithChatResponseCommand { ChatId = Guid.Parse(chatId), Promt = promt }))
+        //    await foreach (var response in _mediator.CreateStream(new CreateChatWithStreamingChatResponseCommand { ChatId = Guid.Parse(chatId), Promt = promt }))
         //    {
         //        var jsonResponse = JsonSerializer.Serialize(response, options);
 
@@ -148,7 +148,7 @@ namespace AudioProcessing.API.Controllers
                 audioStreamData = createChatWithChatResponsRequest.AudioFile?.OpenReadStream();
             }
 
-            var command = new CreateStreamingChatWithChatResponseCommand
+            var command = new CreateChatWithStreamingChatResponseCommand
             {
                 Promt = createChatWithChatResponsRequest.Promt,
                 AudioStream = audioStreamData
