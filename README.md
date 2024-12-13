@@ -37,6 +37,7 @@ The system follows **Clean Architecture**, which emphasizes separation of concer
 
 - **Docker**: Ensure Docker and Docker Compose are installed.
 - **OpenAI API Key**: Required for transcription and chat-based tasks.
+- **Ollama Llama 3.2: Ensure Ollama Llama 3.2 is installed and running.
 
 ## Setup 
 
