@@ -38,7 +38,7 @@ The system follows **Clean Architecture**, which emphasizes separation of concer
 - **Docker**: Ensure Docker and Docker Compose are installed.
 - **OpenAI API Key**: Required for transcription and chat-based tasks.
 
-## Setup and Deployment
+## Setup 
 
 ### How to Run with Docker Compose
 
