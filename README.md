@@ -1,4 +1,4 @@
-# AI Chat Back
+# AI Chat 
 
 ## Overview
 
@@ -36,8 +36,6 @@ The system follows **Clean Architecture**, which emphasizes separation of concer
 ### Prerequisites:
 
 - **Docker**: Ensure Docker and Docker Compose are installed.
-- **Azure Account**: For Blob Storage integration.
-- **Google API Key**: To fetch files from Google Drive.
 - **OpenAI API Key**: Required for transcription and chat-based tasks.
 
 ## Setup and Deployment
