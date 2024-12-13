@@ -24,7 +24,7 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateChatWithChatResponse
 
             var chat = Chat.Create(new UserId(Guid.NewGuid()), "New сhat");
 
-            chat.AddChatResponceOnText(transcriptionResult.Text, prompt);
+            chat.AddChatResponseOnText(transcriptionResult.Text, prompt);
 
             await chatRepository.AddAsync(chat, cancellationToken);
             await chatRepository.SaveChangesAsync(cancellationToken);

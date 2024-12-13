@@ -40,7 +40,7 @@ namespace AudioProcessing.Aplication.Services.Chats
 
             if (!string.IsNullOrWhiteSpace(fullResponse))
             {
-                chat.AddChatResponceOnText(fullResponse, prompt);
+                chat.AddChatResponseOnText(fullResponse, prompt);
                 await chatRepository.SaveChangesAsync(cancellationToken);
             }
         }

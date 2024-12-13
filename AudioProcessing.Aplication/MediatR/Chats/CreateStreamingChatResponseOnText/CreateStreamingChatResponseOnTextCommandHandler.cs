@@ -56,7 +56,7 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateStreamingChatResponseOn
             if(string.IsNullOrWhiteSpace(fullResponse))
                 throw new InvalidOperationException($"Null response");
 
-            chat.AddChatResponceOnText(fullResponse, prompt);
+            chat.AddChatResponseOnText(fullResponse, prompt);
             await chatRepository.SaveChangesAsync();
         }
 

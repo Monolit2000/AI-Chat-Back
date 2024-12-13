@@ -22,7 +22,7 @@ namespace AudioProcessing.Aplication.MediatR.Chats.CreateChatResponseOnText
 
             var chat = await chatRepository.GetByIdAsync(new ChatId(request.ChatId));
 
-            chat.AddChatResponceOnText(transcriptionResult.Text, prompt);
+            chat.AddChatResponseOnText(transcriptionResult.Text, prompt);
             await chatRepository.SaveChangesAsync(cancellationToken);
 
             return new ChatResponseDto(chat.Id.Value, transcriptionResult.Text, prompt);

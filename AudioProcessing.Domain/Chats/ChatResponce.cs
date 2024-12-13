@@ -42,9 +42,11 @@ namespace AudioProcessing.Domain.Chats
             => new ChatResponce(chatId, PromtType.Audio, promt, content, audioId);
 
 
-        public void UpdateContent(string content)
-        {
-            Content += $" {content}";  
-        }
+        public void UpdateContent(string content) 
+            => Content += $" {content}";
+
+        public void UpdatePrompt(string newPrompt)
+            => Promt = newPrompt;
+
     }
 }

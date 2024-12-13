@@ -9,15 +9,12 @@ namespace AudioProcessing.Domain.Chats
     {
         public UserId UserId { get; private set; }
         public readonly List<ChatResponce> ChatResponces = [];
-
         public ChatId Id { get; }
         public string ChatTitel { get; private set; }    
         public DateTime CreatedDate {  get; private set; }
 
-
         public Chat() { } //For Ef Core 
             
-
         private Chat(
             UserId userId, 
             string chatTitel)
@@ -33,7 +30,29 @@ namespace AudioProcessing.Domain.Chats
         public static Chat Create(UserId userId,string chatTitel)
             => new Chat(userId, chatTitel);
 
-        public Result<ChatResponceId> AddChatResponceOnText(string content, string promt = default)
+        public Result DeleteChatRespose(ChatResponceId chatResponceId)
+        {
+            var chatResponse = ChatResponces.FirstOrDefault(x => x.Id == chatResponceId);
+            if (chatResponse is null)
+                return Result.Fail("ChatResponce not found");
+
+            ChatResponces.Remove(chatResponse);
+
+            return Result.Ok();
+        }
+
+        public Result UpdatePrompt(ChatResponceId chatResponceId, string newPrompt)
+        {
+            var chatResponse = GetChatResponce(chatResponceId);
+            if (chatResponse is null)
+                return Result.Fail("ChatResponce not found");
+
+            chatResponse.UpdatePrompt(newPrompt);
+
+            return Result.Ok();
+        }
+
+        public Result<ChatResponceId> AddChatResponseOnText(string content, string promt = default)
         {
             var chatResponse = ChatResponce.CreateResponceOnText(this.Id, promt ?? "None", content);
             ChatResponces.Add(chatResponse);
@@ -53,8 +72,6 @@ namespace AudioProcessing.Domain.Chats
             return Result.Ok();
         }
 
-
-
         public Result AddChatResponceOnAudio(AudioId audioId, string promt, string content)
         {
             var chatResponse = ChatResponce.CreateResponceOnAudio(this.Id, audioId, promt, content);
@@ -72,8 +89,10 @@ namespace AudioProcessing.Domain.Chats
         public void SetChatTitel(string chatTitel)
         {
             ChatTitel = chatTitel;
-
             AddDomainEvent(new ChatTitelSetedDomainEvent(this.Id, ChatTitel));
         }
+
+        private ChatResponce GetChatResponce(ChatResponceId chatResponceId)
+            => ChatResponces.FirstOrDefault(x => x.Id == chatResponceId);
     }
 }

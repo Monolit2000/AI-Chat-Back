@@ -1,0 +1,15 @@
+﻿using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AudioProcessing.Aplication.MediatR.Chats.CreateStreamingChatResponseOnAudio
+{
+    public class CreateStreamingChatResponseOnAudioCommand : IRequest<ChatResponseOnAudioDto>
+    {
+        public string Promt { get; set; } = default;
+        public Stream? AudioStream { get; set; }
+    }
+}

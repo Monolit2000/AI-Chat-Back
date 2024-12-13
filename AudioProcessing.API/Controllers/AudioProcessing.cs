@@ -1,31 +1,23 @@
 using MediatR;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using AudioProcessing.Aplication.Common.Contract;
 using AudioProcessing.Aplication.MediatR.Chats.CreateChat;
 using AudioProcessing.Aplication.MediatR.Chats.DeleteChat;
 using AudioProcessing.Aplication.MediatR.Chats.GetAllChats;
+using AudioProcessing.Aplication.MediatR.Chats.ChegeChatTitel;
+using AudioProcessing.Aplication.MediatR.Chats.GeneareteChatTitel;
 using AudioProcessing.Aplication.MediatR.Chats.CreateTrancription;
 using AudioProcessing.Aplication.MediatR.Chats.GetAllChatsByUserId;
 using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponses;
-using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponsesByChatId;
-using AudioProcessing.Aplication.MediatR.Chats.CreateChatWithChatResponse;
 using AudioProcessing.Aplication.MediatR.Chats.CreateChatResponseOnText;
-using AudioProcessing.Aplication.MediatR.Chats.ChegeChatTitel;
-using AudioProcessing.Aplication.Services.Ollama;
-using AudioProcessing.Aplication.Common.Contract;
-//using Newtonsoft.Json;
-using System.Net.Http;
-using AudioProcessing.Aplication.MediatR.Chats.GeneareteChatTitel;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using AudioProcessing.Aplication.Services.Chats;
-using System.Text.Json;
+using AudioProcessing.Aplication.MediatR.Chats.CreateChatWithChatResponse;
+using AudioProcessing.Aplication.MediatR.Chats.GetAllChatResponsesByChatId;
 using AudioProcessing.Aplication.MediatR.Chats.CreateStreamingChatResponseOnText;
 using AudioProcessing.Aplication.MediatR.Chats.CreateStreamingChatWithChatResponse;
 
 namespace AudioProcessing.API.Controllers
 {
-
- 
-
 
     [ApiController]
     [Route("[controller]")]

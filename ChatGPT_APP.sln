@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioProcessing.Domain", "A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioProcessing.Infrastructure", "AudioProcessing.Infrastructure\AudioProcessing.Infrastructure.csproj", "{1CF15CA8-4C65-47A2-89A7-1E423E5C5097}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioProcessing.Persistence", "AudioProcessing.Persistence\AudioProcessing.Persistence.csproj", "{50309943-3A64-4FD1-88AE-9E02997A816B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{67823F01-544D-4632-9252-7AB202E64251}"
 	ProjectSection(SolutionItems) = preProject
 		.editconfig = .editconfig
@@ -44,10 +42,6 @@ Global
 		{1CF15CA8-4C65-47A2-89A7-1E423E5C5097}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CF15CA8-4C65-47A2-89A7-1E423E5C5097}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CF15CA8-4C65-47A2-89A7-1E423E5C5097}.Release|Any CPU.Build.0 = Release|Any CPU
-		{50309943-3A64-4FD1-88AE-9E02997A816B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{50309943-3A64-4FD1-88AE-9E02997A816B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{50309943-3A64-4FD1-88AE-9E02997A816B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{50309943-3A64-4FD1-88AE-9E02997A816B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{19B109E1-0856-414A-9BAD-496A10B0FA5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{19B109E1-0856-414A-9BAD-496A10B0FA5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19B109E1-0856-414A-9BAD-496A10B0FA5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,7 +55,6 @@ Global
 		{31511556-CE9C-457A-8E98-32E9A6F64102} = {E84D0159-9B8C-4B62-A3AD-90A680E6C06B}
 		{FFC83003-D14C-49D0-AFBD-4A0F5B6A5CB5} = {E84D0159-9B8C-4B62-A3AD-90A680E6C06B}
 		{1CF15CA8-4C65-47A2-89A7-1E423E5C5097} = {E84D0159-9B8C-4B62-A3AD-90A680E6C06B}
-		{50309943-3A64-4FD1-88AE-9E02997A816B} = {E84D0159-9B8C-4B62-A3AD-90A680E6C06B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {876E1878-805E-49C7-9F92-8C4FBE560EB5}
