@@ -2,7 +2,7 @@
 
 ## Overview
 
-Audio Processing Service is a robust and scalable application for handling audio processing tasks. It supports functionalities such as chat-based audio transcription, text-based chat response generation, and seamless integration with cloud services for storage and retrieval. This service leverages modern frameworks, including .NET, Docker, and Azure Blob Storage, to provide efficient solutions.
+AI Chat is a robust and scalable application for handling audio and text processing tasks. It supports functionalities such as chat-based audio transcription, text-based chat response generation, and seamless integration with cloud services for storage and retrieval. This service leverages modern frameworks, including .NET, Docker, and Azure Blob Storage, to provide efficient solutions.
 
 ## Key Features
 
