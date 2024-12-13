@@ -20,7 +20,7 @@ The system follows **Clean Architecture**, which emphasizes separation of concer
 
 ### Core Components:
 
-- **Presentation/API Layer**: Exposes the API endpoints and acts as the interface between the system and external consumers.
+- **Presentation**: Exposes the API endpoints and acts as the interface between the system and external consumers.
 - **Application Layer**: Handles commands and queries, interacting with domain logic.
 - **Domain Layer**: Contains business rules and logic, including entities like Chat and ChatResponse.
 - **Infrastructure Layer**: Manages external integrations, such as Blob Storage, Google Drive, and OpenAI services.
