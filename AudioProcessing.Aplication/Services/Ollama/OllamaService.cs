@@ -17,7 +17,7 @@ namespace AudioProcessing.Aplication.Services.Ollama
         {
             _ollamaApiClient = new OllamaApiClient("http://host.docker.internal:11434");
 
-            _ollamaApiClient.SelectedModel = "llama3.2";
+            _ollamaApiClient.SelectedModel = "llama3.2"; 
         }
 
         public async Task<string> GenerateTextContentResponce(
@@ -53,6 +53,13 @@ namespace AudioProcessing.Aplication.Services.Ollama
             var result = chat.SendAsync(request.Prompt);
 
             return result;
+        }
+
+        private async Task<string> SelectFirstLocalModelAsync()
+        {
+            var localModels = await _ollamaApiClient.ListLocalModelsAsync();
+
+            return localModels.Select(x => x.Name).FirstOrDefault();     
         }
     }
 
